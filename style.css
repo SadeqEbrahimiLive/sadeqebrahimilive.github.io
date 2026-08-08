@@ -173,6 +173,27 @@ main {
   overflow: hidden;
 }
 
+.hero-image {
+  margin-bottom: 28px;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+}
+
+.hero-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.hero-image figcaption {
+  margin: 12px 0 0;
+  color: #64748b;
+  font-size: 0.95rem;
+  text-align: right;
+}
+
 .hero::after {
   content: "";
   position: absolute;
