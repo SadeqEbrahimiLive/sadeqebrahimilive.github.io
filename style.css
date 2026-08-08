@@ -274,6 +274,18 @@ main {
   box-shadow: none;
 }
 
+.blog-article-section {
+  padding: 32px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 28px;
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.05);
+}
+
+.blog-article-section + .blog-article-section {
+  margin-top: 30px;
+}
+
 .blog-article + .blog-article {
   margin-top: 40px;
 }

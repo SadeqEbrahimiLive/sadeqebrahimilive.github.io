@@ -43,7 +43,7 @@
         <section class="blog-section">
           <h2>In-depth research articles</h2>
           <div class="blog-grid">
-            <article class="blog-article">
+            <section class="blog-article blog-article-section">
               <h3>Chirp signal processing for radar and communications</h3>
               <p>Chirp waveforms are widely used in radar and long-range communications because they trade bandwidth for pulse compression. A linear frequency-modulated chirp can be written as <code>s(t)=A\exp\left(j2\pi\left(f_0 t + \frac{k}{2}t^2\right)\right)</code> for <code>0 \le t \le T</code>, where <code>k</code> is the frequency sweep rate and <code>B=kT</code> is the total bandwidth.</p>
               <h4>Matched filtering and resolution</h4>
@@ -51,27 +51,27 @@
               <p>In practice, the time-bandwidth product <code>TB\gg 1</code> determines range resolution and sidelobe performance. The compressed pulse width is approximately <code>1/B</code>, giving high resolution even for long-duration pulses.</p>
               <h4>Applications in communications</h4>
               <p>In communication systems, chirp modulation supports robust reception under Doppler and multipath conditions. A receiver may perform dechirping by multiplying the received signal by a conjugate chirp reference, converting the waveform to a fixed frequency whose SNR can be maximized by coherent integration.</p>
-            </article>
+            </section>
 
-            <article class="blog-article">
+            <section class="blog-article blog-article-section">
               <h3>Information theory learning (ITL) for signal classification</h3>
               <p>Information theory learning uses entropy and divergence measures to infer statistical structure from data. For continuous observations <code>X</code>, the differential entropy is defined as <code>h(X)=-\int p(x)\log p(x)\,dx</code>, and its minimization can guide the selection of features that preserve signal fidelity.</p>
               <h4>Divergence and classification</h4>
               <p>The Kullback-Leibler divergence <code>D_{KL}(p||q)=\int p(x)\log\frac{p(x)}{q(x)}\,dx</code> measures how one distribution diverges from another. In modulation classification, minimizing divergence between observed feature distributions and candidate modulation models improves recognition accuracy under varying SNR.</p>
               <h4>Practical telecom use</h4>
               <p>In wireless research, ITL can be applied to channel estimation by learning probability densities of fading coefficients and interference. Information-theoretic cost functions such as cross-entropy enable training robust classifiers even when channel statistics deviate from Gaussian assumptions.</p>
-            </article>
+            </section>
 
-            <article class="blog-article">
+            <section class="blog-article blog-article-section">
               <h3>O-RAN architecture and open fronthaul design</h3>
               <p>Open RAN decomposes the radio access network into disaggregated functional units: RU, DU, and CU. This enables interoperable hardware and software from different vendors, while the open fronthaul interface must support strict latency and throughput constraints.</p>
               <h4>Performance model</h4>
               <p>A simplified fronthaul model computes required capacity as <code>R_F=N_c B \log_2(1+\text{SNR})</code>, where <code>N_c</code> is the number of component carriers and <code>B</code> is the channel bandwidth. The latency budget typically targets <code>L&lt;1\,\text{ms}</code> for centralized scheduling and real-time RAN control.</p>
               <h4>Research implications</h4>
               <p>O-RAN research focuses on dynamic resource allocation, xApp placement, and intelligent RIC control. Accurate models of fronthaul delay and reliability help quantify the trade-off between virtualization gains and processing overhead.</p>
-            </article>
+            </section>
 
-            <article class="blog-article">
+            <section class="blog-article blog-article-section">
               <h3>Faster-than-Nyquist (FTN) signaling for spectral efficiency</h3>
               <p>FTN signaling deliberately transmits pulses faster than the Nyquist rate, introducing controlled intersymbol interference. If symbols are spaced by <code>\tau T</code> with <code>0&lt;\tau&lt;1</code>, the received waveform becomes <code>r(t)=\sum_n a_n g(t-n\tau T)+n(t)</code>, requiring advanced equalization.</p>
               <h4>Achievable rate</h4>
@@ -87,7 +87,7 @@
               <p>A basic M/M/1 queue yields average latency <code>W = rac{1}{	extmu - 	extlambda}</code>, where <code>	extlambda</code> is the task arrival rate and <code>	extmu</code> is the service rate. Ensuring <code>	extmu&gt;	extlambda</code> is critical for URLLC and real-time processing.</p>
               <h4>Wireless offloading</h4>
               <p>Offloading decisions depend on channel quality, edge node capacity, and task urgency. The optimization problem can be formulated as minimizing total delay <code>D = D_{\text{tx}} + D_{\text{proc}}</code> subject to energy and reliability constraints.</p>
-            </article>
+            </section>
           </div>
         </section>
       </main>
