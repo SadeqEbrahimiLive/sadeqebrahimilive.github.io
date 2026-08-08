@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blog | Sadeq Ebrahimi</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <div class="layout">
     <aside class="sidebar">
@@ -37,7 +39,9 @@
         <section class="hero">
           <p class="eyebrow">Articles</p>
           <h1>Notes from my telecom and research journey</h1>
-          <p class="hero-copy">A collection of posts about wireless systems, RF planning, IoT connectivity, and communication network design. These pieces are written to support academic applications and collaborative research.</p>
+          <p class="hero-copy">A collection of posts about wireless systems, RF planning, IoT connectivity, and
+            communication network design. These pieces are written to support academic applications and collaborative
+            research.</p>
         </section>
 
         <section class="blog-section">
@@ -45,54 +49,143 @@
           <div class="blog-grid">
             <section class="blog-article blog-article-section">
               <h3>Chirp signal processing for radar and communications</h3>
-              <p>Chirp waveforms are widely used in radar and long-range communications because they trade bandwidth for pulse compression. A linear frequency-modulated chirp can be written as <code>s(t)=A\exp\left(j2\pi\left(f_0 t + \frac{k}{2}t^2\right)\right)</code> for <code>0 \le t \le T</code>, where <code>k</code> is the frequency sweep rate and <code>B=kT</code> is the total bandwidth.</p>
+              <p>Chirp waveforms are widely used in radar and long-range communications because they trade bandwidth for
+                pulse compression. A linear frequency-modulated chirp can be written as
+                <code>s(t)=A\exp\left(j2\pi\left(f_0 t + \frac{k}{2}t^2\right)\right)</code> for
+                <code>0 \le t \le T</code>, where <code>k</code> is the frequency sweep rate and <code>B=kT</code> is
+                the total bandwidth.</p>
               <h4>Matched filtering and resolution</h4>
-              <p>The matched filter output approximates the autocorrelation of the chirp. For a linear FM pulse, the peak width is inversely proportional to bandwidth: <code>1/B</code>.</p>
-              <p>In practice, the time-bandwidth product <code>TB\gg 1</code> determines range resolution and sidelobe performance. The compressed pulse width is approximately <code>1/B</code>, giving high resolution even for long-duration pulses.</p>
+              <p>The matched filter output approximates the autocorrelation of the chirp. For a linear FM pulse, the
+                peak width is inversely proportional to bandwidth: <code>1/B</code>.</p>
+              <p>In practice, the time-bandwidth product <code>TB\gg 1</code> determines range resolution and sidelobe
+                performance. The compressed pulse width is approximately <code>1/B</code>, giving high resolution even
+                for long-duration pulses.</p>
               <h4>Applications in communications</h4>
-              <p>In communication systems, chirp modulation supports robust reception under Doppler and multipath conditions. A receiver may perform dechirping by multiplying the received signal by a conjugate chirp reference, converting the waveform to a fixed frequency whose SNR can be maximized by coherent integration.</p>
+              <p>In communication systems, chirp modulation supports robust reception under Doppler and multipath
+                conditions. A receiver may perform dechirping by multiplying the received signal by a conjugate chirp
+                reference, converting the waveform to a fixed frequency whose SNR can be maximized by coherent
+                integration.</p>
             </section>
 
             <section class="blog-article blog-article-section">
               <h3>Information theory learning (ITL) for signal classification</h3>
-              <p>Information theory learning uses entropy and divergence measures to infer statistical structure from data. For continuous observations <code>X</code>, the differential entropy is defined as <code>h(X)=-\int p(x)\log p(x)\,dx</code>, and its minimization can guide the selection of features that preserve signal fidelity.</p>
+              <p>Information theory learning uses entropy and divergence measures to infer statistical structure from
+                data. For continuous observations <code>X</code>, the differential entropy is defined as
+                <code>h(X)=-\int p(x)\log p(x)\,dx</code>, and its minimization can guide the selection of features that
+                preserve signal fidelity.</p>
               <h4>Divergence and classification</h4>
-              <p>The Kullback-Leibler divergence <code>D_{KL}(p||q)=\int p(x)\log\frac{p(x)}{q(x)}\,dx</code> measures how one distribution diverges from another. In modulation classification, minimizing divergence between observed feature distributions and candidate modulation models improves recognition accuracy under varying SNR.</p>
+              <p>The Kullback-Leibler divergence <code>D_{KL}(p||q)=\int p(x)\log\frac{p(x)}{q(x)}\,dx</code> measures
+                how one distribution diverges from another. In modulation classification, minimizing divergence between
+                observed feature distributions and candidate modulation models improves recognition accuracy under
+                varying SNR.</p>
               <h4>Practical telecom use</h4>
-              <p>In wireless research, ITL can be applied to channel estimation by learning probability densities of fading coefficients and interference. Information-theoretic cost functions such as cross-entropy enable training robust classifiers even when channel statistics deviate from Gaussian assumptions.</p>
+              <p>In wireless research, ITL can be applied to channel estimation by learning probability densities of
+                fading coefficients and interference. Information-theoretic cost functions such as cross-entropy enable
+                training robust classifiers even when channel statistics deviate from Gaussian assumptions.</p>
             </section>
 
             <section class="blog-article blog-article-section">
               <h3>O-RAN architecture and open fronthaul design</h3>
-              <p>Open RAN decomposes the radio access network into disaggregated functional units: RU, DU, and CU. This enables interoperable hardware and software from different vendors, while the open fronthaul interface must support strict latency and throughput constraints.</p>
+              <p>Open RAN decomposes the radio access network into disaggregated functional units: RU, DU, and CU. This
+                enables interoperable hardware and software from different vendors, while the open fronthaul interface
+                must support strict latency and throughput constraints.</p>
               <h4>Performance model</h4>
-              <p>A simplified fronthaul model computes required capacity as <code>R_F=N_c B \log_2(1+\text{SNR})</code>, where <code>N_c</code> is the number of component carriers and <code>B</code> is the channel bandwidth. The latency budget typically targets <code>L&lt;1\,\text{ms}</code> for centralized scheduling and real-time RAN control.</p>
+              <p>A simplified fronthaul model computes required capacity as <code>R_F=N_c B \log_2(1+\text{SNR})</code>,
+                where <code>N_c</code> is the number of component carriers and <code>B</code> is the channel bandwidth.
+                The latency budget typically targets <code>L&lt;1\,\text{ms}</code> for centralized scheduling and
+                real-time RAN control.</p>
               <h4>Research implications</h4>
-              <p>O-RAN research focuses on dynamic resource allocation, xApp placement, and intelligent RIC control. Accurate models of fronthaul delay and reliability help quantify the trade-off between virtualization gains and processing overhead.</p>
+              <p>O-RAN research focuses on dynamic resource allocation, xApp placement, and intelligent RIC control.
+                Accurate models of fronthaul delay and reliability help quantify the trade-off between virtualization
+                gains and processing overhead.</p>
             </section>
 
+            <!-- 1. Include these scripts in your <head> or at the top of your page for the Math to render beautifully -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+            <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+            <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+              onload="renderMathInElement(document.body);"></script>
+
+            <!-- 2. The Article Content -->
             <section class="blog-article blog-article-section">
-              <h3>Faster-than-Nyquist (FTN) signaling for spectral efficiency</h3>
-              <p>FTN signaling deliberately transmits pulses faster than the Nyquist rate, introducing controlled intersymbol interference. If symbols are spaced by <code>\tau T</code> with <code>0&lt;\tau&lt;1</code>, the received waveform becomes <code>r(t)=\sum_n a_n g(t-n\tau T)+n(t)</code>, requiring advanced equalization.</p>
-              <h4>Achievable rate</h4>
-              <p>Under optimal detection, the mutual information can exceed the conventional Nyquist bound. One expression for achievable information rate is <code>I = \log_2\det\left(I + \text{SNR}\,HH^H\right)</code> for the effective channel matrix <code>H</code> that captures ISI.</p>
-              <h4>Implementation challenges</h4>
-              <p>FTN requires precise timing recovery and channel estimation. Research explores low-complexity detection algorithms such as iterative turbo equalization and sphere decoding to recover symbols with near-optimal performance.</p>
-            </article>
+              <h3>Beyond the Nyquist Limit: A Deep Dive into FTN Signaling</h3>
+
+              <p>Traditional digital communication relies on the Nyquist criterion to prevent intersymbol interference
+                (ISI) by ensuring symbol intervals are sufficiently wide. However, Faster-than-Nyquist (FTN) signaling
+                breaks this constraint by intentionally compressing the symbol period, thereby increasing spectral
+                efficiency at the cost of controlled ISI.</p>
+
+              <h4>1. Mathematical Signal Model</h4>
+              <p>In a standard Nyquist-compliant system, symbols are spaced by a period $T$. In FTN, we introduce a
+                compression factor $\tau$, where $0 < \tau < 1$, such that the new symbol interval is $\tau T$. The
+                  transmitted waveform $s(t)$ can be modeled as:</p>
+
+                  <p>$$s(t) = \sum_{n=-\infty}^{\infty} a_n \, h(t - n\tau T)$$</p>
+
+                  <p>Where $a_n$ represents the transmitted symbols and $h(t)$ is the pulse shape. Because the pulses
+                    are now closer together than their zero-crossing intervals, the received signal $r(t)$ in the
+                    presence of additive white Gaussian noise (AWGN) $n(t)$ becomes:</p>
+
+                  <p>$$r(t) = \sum_{n=-\infty}^{\infty} a_n \, h(t - n\tau T) + n(t)$$</p>
+
+                  <h4>2. The Mazo Limit and Euclidean Distance</h4>
+                  <p>The primary concern in FTN is the degradation of the minimum Euclidean distance ($d_{min}$), which
+                    dictates the error probability. According to Mazo's theorem, for specific pulse shapes and symbol
+                    constellations, the $d_{min}$ remains relatively constant as long as the compression factor $\tau$
+                    stays above a certain threshold, often referred to as the <strong>Mazo Limit</strong>.</p>
+
+                  <p>If we define the effective channel matrix $\mathbf{H}$ to account for the ISI induced by the
+                    overlap, the signal model in discrete time can be expressed as:</p>
+
+                  <p>$$\mathbf{y} = \mathbf{H}\mathbf{a} + \mathbf{n}$$</p>
+
+                  <h4>3. Capacity and Achievable Rate</h4>
+                  <p>The goal of FTN is to increase the information rate without increasing the occupied bandwidth $B$.
+                    Under optimal detection in a Gaussian channel, the capacity $C$ (or achievable mutual information)
+                    for a given Signal-to-Noise Ratio (SNR) is given by:</p>
+
+                  <p>$$I = \log_2 \det \left( \mathbf{I} + \frac{\text{SNR}}{N} \mathbf{H}\mathbf{H}^H \right)$$</p>
+
+                  <p>where $\mathbf{H}^H$ denotes the conjugate transpose of the channel matrix. As $\tau$ decreases,
+                    the spectral efficiency $\eta$ increases as $\eta \propto 1/\tau$, allowing for higher data rates
+                    within the same frequency allocation.</p>
+
+                  <h4>4. Implementation and Detection Challenges</h4>
+                  <p>While FTN offers a significant boost in spectral efficiency, the "price" is the complexity of the
+                    receiver. Because the channel $\mathbf{H}$ is no longer diagonal, simple matched filtering is
+                    insufficient. Modern implementation focuses on:</p>
+                  <ul>
+                    <li><strong>Maximum Likelihood Sequence Estimation (MLSE):</strong> Using the Viterbi algorithm to
+                      find the most likely sequence, though this is computationally expensive.</li>
+                    <li><strong>Iterative Detection:</strong> Combining frequency-domain equalization with soft-decision
+                      decoding (Turbo Equalization).</li>
+                    <li><strong>Precoding:</strong> Modifying the transmitted symbols to pre-compensate for the expected
+                      ISI.</li>
+                  </ul>
+            </section>
+
 
             <article class="blog-article">
               <h3>Edge computing performance in wireless systems</h3>
-              <p>Edge computing shifts processing from centralized clouds to distributed nodes closer to users. In a wireless system, this reduces round-trip latency and supports applications with strict delay requirements.</p>
+              <p>Edge computing shifts processing from centralized clouds to distributed nodes closer to users. In a
+                wireless system, this reduces round-trip latency and supports applications with strict delay
+                requirements.</p>
               <h4>Queueing and latency</h4>
-              <p>A basic M/M/1 queue yields average latency <code>W = rac{1}{	extmu - 	extlambda}</code>, where <code>	extlambda</code> is the task arrival rate and <code>	extmu</code> is the service rate. Ensuring <code>	extmu&gt;	extlambda</code> is critical for URLLC and real-time processing.</p>
+              <p>A basic M/M/1 queue yields average latency <code>W = rac{1}{	extmu - 	extlambda}</code>, where
+                <code>	extlambda</code> is the task arrival rate and <code>	extmu</code> is the service rate. Ensuring
+                <code>	extmu&gt;	extlambda</code> is critical for URLLC and real-time processing.</p>
               <h4>Wireless offloading</h4>
-              <p>Offloading decisions depend on channel quality, edge node capacity, and task urgency. The optimization problem can be formulated as minimizing total delay <code>D = D_{\text{tx}} + D_{\text{proc}}</code> subject to energy and reliability constraints.</p>
-            </section>
-          </div>
+              <p>Offloading decisions depend on channel quality, edge node capacity, and task urgency. The optimization
+                problem can be formulated as minimizing total delay <code>D = D_{\text{tx}} + D_{\text{proc}}</code>
+                subject to energy and reliability constraints.</p>
         </section>
-      </main>
-      <footer class="site-footer">© 2026 Sadeq Ebrahimi · <a href="mailto:sadeq@example.com">sadeq@example.com</a></footer>
     </div>
+    </section>
+    </main>
+    <footer class="site-footer">© 2026 Sadeq Ebrahimi · <a href="mailto:sadeq@example.com">sadeq@example.com</a>
+    </footer>
+  </div>
   </div>
 </body>
+
 </html>
