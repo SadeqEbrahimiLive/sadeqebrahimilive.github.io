@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sadeq Ebrahimi | Resume</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, rgba(79, 70, 229, 0.12), transparent 30%),
+        linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+      color: #111827;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 24px 48px;
+    }
+
+    header.hero {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 24px;
+      padding: 32px;
+      margin: 24px auto;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.06);
+    }
+
+    header.hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2.4rem, 4vw, 3.4rem);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+    }
+
+    header.hero p.subtitle {
+      margin: 0 0 18px;
+      color: #4b5563;
+      max-width: 760px;
+      line-height: 1.8;
+    }
+
+    .hero-meta {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+    }
+
+    .hero-actions {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 20px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .button-primary {
+      background: #4338ca;
+      color: white;
+    }
+
+    .button-secondary {
+      background: #eef2ff;
+      color: #4338ca;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    section.section {
+      margin-top: 32px;
+      padding: 28px;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 24px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.04);
+    }
+
+    section.section h2 {
+      margin: 0 0 18px;
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+    }
+
+    .section-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .card {
+      padding: 18px 20px;
+      border-radius: 20px;
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+    }
+
+    .card time,
+    .card p {
+      margin: 0;
+      color: #4b5563;
+      line-height: 1.75;
+    }
+
+    .list-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 0;
+      margin: 16px 0 0;
+      list-style: none;
+    }
+
+    .list-inline li {
+      background: #eef2ff;
+      color: #1d4ed8;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+    }
+
+    .footer {
+      text-align: center;
+      margin: 36px auto 0;
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 640px) {
+      .hero-meta,
+      .hero-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <div>
+        <p style="margin: 0; color: #4338ca; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.82rem;">Resume</p>
+        <h1>Sadeq Ebrahimi</h1>
+        <p class="subtitle">Front-end developer and UX-minded web engineer building polished, accessible websites and applications. Strong experience with responsive design, performance optimization, and developer workflows.</p>
+      </div>
+
+      <div class="hero-meta">
+        <span>📍 Tehran, Iran</span>
+        <span>💼 5+ years experience</span>
+        <span>✉️ sadeq@example.com</span>
+      </div>
+
+      <div class="hero-actions">
+        <a class="button button-primary" href="#experience">View experience</a>
+        <a class="button button-secondary" href="#contact">Contact</a>
+      </div>
+    </header>
+
+    <section class="section" id="experience">
+      <h2>Experience</h2>
+      <div class="section-grid">
+        <article class="card">
+          <h3>Senior Front-End Developer</h3>
+          <time>2022 — Present</time>
+          <p>Lead implementation of responsive marketing sites and web apps using HTML, CSS, JavaScript, and modern frameworks. Improved page speed and accessibility for core product pages, resulting in better conversion rates.</p>
+          <ul class="list-inline">
+            <li>React</li>
+            <li>Next.js</li>
+            <li>Tailwind CSS</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Front-End Engineer</h3>
+          <time>2019 — 2022</time>
+          <p>Built user interfaces for SaaS dashboards and client portals. Maintained component libraries, designed scalable layouts, and collaborated with product and design teams to deliver consistent brand experiences.</p>
+          <ul class="list-inline">
+            <li>JavaScript</li>
+            <li>TypeScript</li>
+            <li>Vue.js</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="education">
+      <h2>Education</h2>
+      <div class="section-grid">
+        <article class="card">
+          <h3>Bachelor of Computer Science</h3>
+          <time>2015 — 2019</time>
+          <p>Graduated with a focus on web development, user interfaces, and software engineering principles. Completed projects in front-end architecture, accessibility, and performance optimization.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="skills">
+      <h2>Skills</h2>
+      <ul class="list-inline">
+        <li>HTML & CSS</li>
+        <li>JavaScript</li>
+        <li>React</li>
+        <li>Next.js</li>
+        <li>TypeScript</li>
+        <li>Responsive Design</li>
+        <li>Accessibility</li>
+        <li>Git</li>
+      </ul>
+    </section>
+
+    <section class="section" id="contact">
+      <h2>Contact</h2>
+      <p>Available for freelance and full-time opportunity. Reach out by email or connect on LinkedIn.</p>
+      <div class="hero-meta" style="margin-top: 18px;">
+        <span>✉️ <a href="mailto:sadeq@example.com">sadeq@example.com</a></span>
+        <span>🔗 <a href="https://linkedin.com/in/sadeqebrahimi" target="_blank" rel="noreferrer">linkedin.com/in/sadeqebrahimi</a></span>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Designed and built by Sadeq Ebrahimi.</p>
+    </footer>
+  </main>
+</body>
+</html>
