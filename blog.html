@@ -2,190 +2,438 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blog | Sadeq Ebrahimi</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog | Sadeq Ebrahimi</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body);"></script>
 </head>
 
 <body>
-  <div class="layout">
-    <aside class="sidebar">
-      <div class="brand">
-        <p class="eyebrow">Telecommunications Engineer</p>
-        <h1>Sadeq Ebrahimi</h1>
-      </div>
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="brand">
+                <p class="eyebrow">Telecommunications Engineer</p>
+                <h1>Sadeq Ebrahimi</h1>
+            </div>
 
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="resume.html">Resume</a>
-        <a href="blog.html" class="active">Blog</a>
-      </nav>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="resume.html">Resume</a>
+                <a href="blog.html" class="active">Blog</a>
+            </nav>
 
-      <div class="footer-note">Thoughts on wireless research, network design, and telecom systems.</div>
-    </aside>
+            <div class="footer-note">Thoughts on wireless research, network design, and telecom systems.</div>
+        </aside>
 
-    <div class="main-wrap">
-      <header class="top-bar">
-        <div class="top-brand">Blog</div>
-        <nav class="nav-links">
-          <a href="index.html">Home</a>
-          <a href="resume.html">Resume</a>
-          <a href="blog.html" class="active">Blog</a>
-        </nav>
-      </header>
+        <div class="main-wrap">
+            <header class="top-bar">
+                <div class="top-brand">Blog</div>
+                <nav class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="resume.html">Resume</a>
+                    <a href="blog.html" class="active">Blog</a>
+                </nav>
+            </header>
 
-      <main>
-        <section class="hero">
-          <p class="eyebrow">Articles</p>
-          <h1>Notes from my telecom and research journey</h1>
-          <p class="hero-copy">A collection of posts about wireless systems, RF planning, IoT connectivity, and
-            communication network design. These pieces are written to support academic applications and collaborative
-            research.</p>
-        </section>
+            <main>
+                <section class="hero">
+                    <p class="eyebrow">Articles</p>
+                    <h1>Notes from my telecom and research journey</h1>
+                    <p class="hero-copy">A collection of posts about wireless systems, RF planning, IoT connectivity,
+                        and
+                        communication network design. These pieces are written to support academic applications and
+                        collaborative
+                        research.</p>
+                </section>
 
-        <section class="blog-section">
-          <h2>In-depth research articles</h2>
-          <div class="blog-grid">
-            <section class="blog-article blog-article-section">
-              <h3>Chirp signal processing for radar and communications</h3>
-              <p>Chirp waveforms are widely used in radar and long-range communications because they trade bandwidth for
-                pulse compression. A linear frequency-modulated chirp can be written as
-                <code>s(t)=A\exp\left(j2\pi\left(f_0 t + \frac{k}{2}t^2\right)\right)</code> for
-                <code>0 \le t \le T</code>, where <code>k</code> is the frequency sweep rate and <code>B=kT</code> is
-                the total bandwidth.</p>
-              <h4>Matched filtering and resolution</h4>
-              <p>The matched filter output approximates the autocorrelation of the chirp. For a linear FM pulse, the
-                peak width is inversely proportional to bandwidth: <code>1/B</code>.</p>
-              <p>In practice, the time-bandwidth product <code>TB\gg 1</code> determines range resolution and sidelobe
-                performance. The compressed pulse width is approximately <code>1/B</code>, giving high resolution even
-                for long-duration pulses.</p>
-              <h4>Applications in communications</h4>
-              <p>In communication systems, chirp modulation supports robust reception under Doppler and multipath
-                conditions. A receiver may perform dechirping by multiplying the received signal by a conjugate chirp
-                reference, converting the waveform to a fixed frequency whose SNR can be maximized by coherent
-                integration.</p>
-            </section>
+                <section class="blog-section">
+                    <h2>In-depth research articles</h2>
+                    <div class="blog-grid">
+                        <section class="blog-article blog-article-section">
+                            <h3>Chirp Spread Spectrum (CSS) in the 6G Era: Resilience and Massive Connectivity</h3>
 
-            <section class="blog-article blog-article-section">
-              <h3>Information theory learning (ITL) for signal classification</h3>
-              <p>Information theory learning uses entropy and divergence measures to infer statistical structure from
-                data. For continuous observations <code>X</code>, the differential entropy is defined as
-                <code>h(X)=-\int p(x)\log p(x)\,dx</code>, and its minimization can guide the selection of features that
-                preserve signal fidelity.</p>
-              <h4>Divergence and classification</h4>
-              <p>The Kullback-Leibler divergence <code>D_{KL}(p||q)=\int p(x)\log\frac{p(x)}{q(x)}\,dx</code> measures
-                how one distribution diverges from another. In modulation classification, minimizing divergence between
-                observed feature distributions and candidate modulation models improves recognition accuracy under
-                varying SNR.</p>
-              <h4>Practical telecom use</h4>
-              <p>In wireless research, ITL can be applied to channel estimation by learning probability densities of
-                fading coefficients and interference. Information-theoretic cost functions such as cross-entropy enable
-                training robust classifiers even when channel statistics deviate from Gaussian assumptions.</p>
-            </section>
+                            <p>As we transition toward 6G, the demand for massive Machine-Type Communications (mMTC) and
+                                ultra-reliable low-latency communications (URLLC) necessitates waveforms that are highly
+                                resilient to frequency offsets and Doppler shifts. Chirp Spread Spectrum (CSS), a
+                                modulation technique where frequency increases or decreases over time, is emerging as a
+                                key candidate for 6G sub-THz and IoT integration due to its unique processing gain and
+                                robustness.</p>
 
-            <section class="blog-article blog-article-section">
-              <h3>O-RAN architecture and open fronthaul design</h3>
-              <p>Open RAN decomposes the radio access network into disaggregated functional units: RU, DU, and CU. This
-                enables interoperable hardware and software from different vendors, while the open fronthaul interface
-                must support strict latency and throughput constraints.</p>
-              <h4>Performance model</h4>
-              <p>A simplified fronthaul model computes required capacity as <code>R_F=N_c B \log_2(1+\text{SNR})</code>,
-                where <code>N_c</code> is the number of component carriers and <code>B</code> is the channel bandwidth.
-                The latency budget typically targets <code>L&lt;1\,\text{ms}</code> for centralized scheduling and
-                real-time RAN control.</p>
-              <h4>Research implications</h4>
-              <p>O-RAN research focuses on dynamic resource allocation, xApp placement, and intelligent RIC control.
-                Accurate models of fronthaul delay and reliability help quantify the trade-off between virtualization
-                gains and processing overhead.</p>
-            </section>
+                            <h4>1. Mathematical Chirp Model</h4>
+                            <p>A chirp signal is characterized by a linear frequency modulation (LFM). The instantaneous
+                                frequency $f(t)$ changes linearly with time. For a chirp duration $T$ and a bandwidth
+                                $B$, the frequency sweep is defined as $f(t) = f_0 + kt$, where $k$ is the chirp rate.
+                                The baseband chirp waveform $s(t)$ can be mathematically expressed as:</p>
 
-            <!-- 1. Include these scripts in your <head> or at the top of your page for the Math to render beautifully -->
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
-            <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-            <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
-              onload="renderMathInElement(document.body);"></script>
+                            <p>$$s(t) = \exp\left( j \pi k t^2 \right), \quad 0 \le t < T$$</p>
 
-            <!-- 2. The Article Content -->
-            <section class="blog-article blog-article-section">
-              <h3>Beyond the Nyquist Limit: A Deep Dive into FTN Signaling</h3>
+                                    <p>Where the chirp rate $k$ is determined by the total bandwidth $B$ and the symbol
+                                        duration $T$ as:</p>
 
-              <p>Traditional digital communication relies on the Nyquist criterion to prevent intersymbol interference
-                (ISI) by ensuring symbol intervals are sufficiently wide. However, Faster-than-Nyquist (FTN) signaling
-                breaks this constraint by intentionally compressing the symbol period, thereby increasing spectral
-                efficiency at the cost of controlled ISI.</p>
+                                    <p>$$k = \frac{B}{T}$$</p>
 
-              <h4>1. Mathematical Signal Model</h4>
-              <p>In a standard Nyquist-compliant system, symbols are spaced by a period $T$. In FTN, we introduce a
-                compression factor $\tau$, where $0 < \tau < 1$, such that the new symbol interval is $\tau T$. The
-                  transmitted waveform $s(t)$ can be modeled as:</p>
+                                    <p>In 6G wideband applications, this sweep allows the signal to occupy a massive
+                                        bandwidth $B$, providing significant processing gain even in extremely low
+                                        Signal-to-Noise Ratio (SNR) environments.</p>
 
-                  <p>$$s(t) = \sum_{n=-\infty}^{\infty} a_n \, h(t - n\tau T)$$</p>
+                                    <h4>2. Processing Gain and Interference Immunity</h4>
+                                    <p>The primary advantage of CSS in 6G is its "Processing Gain" ($G_p$), which allows
+                                        the signal to be recovered from below the noise floor. This gain is a function
+                                        of the ratio between the spread bandwidth $B$ and the information bandwidth
+                                        $R_b$. The processing gain is given by:</p>
 
-                  <p>Where $a_n$ represents the transmitted symbols and $h(t)$ is the pulse shape. Because the pulses
-                    are now closer together than their zero-crossing intervals, the received signal $r(t)$ in the
-                    presence of additive white Gaussian noise (AWGN) $n(t)$ becomes:</p>
+                                    <p>$$G_p = 10 \log_{10} \left( \frac{B}{R_b} \right) \, \text{dB}$$</p>
 
-                  <p>$$r(t) = \sum_{n=-\infty}^{\infty} a_n \, h(t - n\tau T) + n(t)$$</p>
+                                    <p>In the context of 6G massive connectivity, high $G_p$ values enable thousands of
+                                        low-power sensors to communicate simultaneously without catastrophic collisions,
+                                        as the unique "chirp slope" acts as a natural orthogonal identifier in the
+                                        time-frequency plane.</p>
 
-                  <h4>2. The Mazo Limit and Euclidean Distance</h4>
-                  <p>The primary concern in FTN is the degradation of the minimum Euclidean distance ($d_{min}$), which
-                    dictates the error probability. According to Mazo's theorem, for specific pulse shapes and symbol
-                    constellations, the $d_{min}$ remains relatively constant as long as the compression factor $\tau$
-                    stays above a certain threshold, often referred to as the <strong>Mazo Limit</strong>.</p>
+                                    <h4>3. Correlation and De-chirping</h4>
+                                    <p>To recover the transmitted information, the receiver performs a "de-chirping"
+                                        process. This involves multiplying the received signal $r(t)$ by a locally
+                                        generated conjugate chirp $s^*(t)$. The resulting signal is a constant frequency
+                                        tone, which can then be processed via a Fast Fourier Transform (FFT). The
+                                        correlation integral $C(\tau)$ for a time delay $\tau$ is represented as:</p>
 
-                  <p>If we define the effective channel matrix $\mathbf{H}$ to account for the ISI induced by the
-                    overlap, the signal model in discrete time can be expressed as:</p>
+                                    <p>$$C(\tau) = \int_{0}^{T} r(t) \cdot s^*(t-\tau) \, dt$$</p>
 
-                  <p>$$\mathbf{y} = \mathbf{H}\mathbf{a} + \mathbf{n}$$</p>
+                                    <p>In 6G sensing-communication integrated networks (ISAC), this correlation peak not
+                                        only recovers data but also provides high-precision ranging and localization
+                                        data, as the time delay $\tau$ is directly proportional to the distance of the
+                                        object from the base station.</p>
 
-                  <h4>3. Capacity and Achievable Rate</h4>
-                  <p>The goal of FTN is to increase the information rate without increasing the occupied bandwidth $B$.
-                    Under optimal detection in a Gaussian channel, the capacity $C$ (or achievable mutual information)
-                    for a given Signal-to-Noise Ratio (SNR) is given by:</p>
-
-                  <p>$$I = \log_2 \det \left( \mathbf{I} + \frac{\text{SNR}}{N} \mathbf{H}\mathbf{H}^H \right)$$</p>
-
-                  <p>where $\mathbf{H}^H$ denotes the conjugate transpose of the channel matrix. As $\tau$ decreases,
-                    the spectral efficiency $\eta$ increases as $\eta \propto 1/\tau$, allowing for higher data rates
-                    within the same frequency allocation.</p>
-
-                  <h4>4. Implementation and Detection Challenges</h4>
-                  <p>While FTN offers a significant boost in spectral efficiency, the "price" is the complexity of the
-                    receiver. Because the channel $\mathbf{H}$ is no longer diagonal, simple matched filtering is
-                    insufficient. Modern implementation focuses on:</p>
-                  <ul>
-                    <li><strong>Maximum Likelihood Sequence Estimation (MLSE):</strong> Using the Viterbi algorithm to
-                      find the most likely sequence, though this is computationally expensive.</li>
-                    <li><strong>Iterative Detection:</strong> Combining frequency-domain equalization with soft-decision
-                      decoding (Turbo Equalization).</li>
-                    <li><strong>Precoding:</strong> Modifying the transmitted symbols to pre-compensate for the expected
-                      ISI.</li>
-                  </ul>
-            </section>
+                                    <h4>4. 6G Implementation Challenges</h4>
+                                    <p>Despite its robustness, CSS in 6G faces technical hurdles regarding scaling to
+                                        extremely wide bandwidths (THz range) and high data rates. Current research
+                                        focuses on:</p>
+                                    <ul>
+                                        <li><strong>Non-linear Chirps:</strong> Moving beyond LFM to polynomial chirps
+                                            to better combat the non-linearities found in 6G sub-THz hardware.</li>
+                                        <li><strong>Multi-Carrier CSS:</strong> Integrating CSS with Orthogonal
+                                            Frequency Division Multiplexing (OFDM) to combine high throughput with high
+                                            resilience.</li>
+                                        <li><strong>Hardware Complexity:</strong> Developing low-power, high-speed
+                                            Analog-to-Digital Converters (ADCs) capable of sampling the massive
+                                            bandwidths required for 6G chirp-based sensing.</li>
+                                    </ul>
+                        </section>
 
 
-            <article class="blog-article">
-              <h3>Edge computing performance in wireless systems</h3>
-              <p>Edge computing shifts processing from centralized clouds to distributed nodes closer to users. In a
-                wireless system, this reduces round-trip latency and supports applications with strict delay
-                requirements.</p>
-              <h4>Queueing and latency</h4>
-              <p>A basic M/M/1 queue yields average latency <code>W = rac{1}{	extmu - 	extlambda}</code>, where
-                <code>	extlambda</code> is the task arrival rate and <code>	extmu</code> is the service rate. Ensuring
-                <code>	extmu&gt;	extlambda</code> is critical for URLLC and real-time processing.</p>
-              <h4>Wireless offloading</h4>
-              <p>Offloading decisions depend on channel quality, edge node capacity, and task urgency. The optimization
-                problem can be formulated as minimizing total delay <code>D = D_{\text{tx}} + D_{\text{proc}}</code>
-                subject to energy and reliability constraints.</p>
-        </section>
+                        <section class="blog-article blog-article-section">
+                            <h3>Information Theory Learning (ITL): Bridging Entropy and Machine Intelligence</h3>
+
+                            <p>Traditional Machine Learning (ML) paradigms primarily rely on minimizing empirical risk
+                                through loss functions like Mean Squared Error (MSE) or Cross-Entropy. However, a more
+                                profound approach is emerging: <strong>Information Theory Learning (ITL)</strong>. ITL
+                                shifts the objective from simple error minimization to the optimization of
+                                information-theoretic measures, such as Renyi's Entropy and Mutual Information, to
+                                enhance feature extraction and system robustness.</p>
+
+                            <h4>1. The Core Philosophy: Beyond Loss Functions</h4>
+                            <p>In standard supervised learning, we minimize a loss function $L(\theta)$. In ITL, we
+                                treat the data as a probability density function (PDF) and aim to manipulate the
+                                statistical properties of the representation space. Instead of just asking "How close is
+                                the prediction to the label?", ITL asks "How much information is being preserved, and
+                                how much uncertainty is being reduced?"</p>
+
+                            <h4>2. Mathematical Foundation: Renyi's Entropy</h4>
+                            <p>A cornerstone of ITL is the use of <strong>Renyi's $\alpha$-order entropy</strong>, which
+                                generalizes the concept of Shannon entropy. Unlike Shannon entropy, Renyi entropy
+                                provides a parameter $\alpha$ that allows us to tune the sensitivity of the learning
+                                process to different parts of the probability distribution (e.g., focusing on the tails
+                                or the peaks).</p>
+
+                            <p>The Renyi entropy $H_\alpha(X)$ for a continuous random variable $X$ with density $f(x)$
+                                is defined as:</p>
+
+                            <p>$$H_\alpha(X) = \frac{1}{1-\alpha} \log \int_{\mathcal{X}} f(x)^\alpha \, dx$$</p>
+
+                            <p>As $\alpha \to 1$, this expression converges to the classical Shannon entropy. In ITL,
+                                minimizing this entropy in a feature space is equivalent to "concentrating" the data,
+                                effectively performing non-linear dimensionality reduction and noise suppression
+                                simultaneously.</p>
+
+                            <h4>3. Information Bottleneck (IB) Principle</h4>
+                            <p>One of the most significant applications of ITL in deep learning is the
+                                <strong>Information Bottleneck (IB) principle</strong>. The goal is to find a compressed
+                                representation $Z$ of the input $X$ that retains as much information as possible about
+                                the target $Y$, while discarding irrelevant details from $X$. This is formulated as
+                                maximizing the objective function:</p>
+
+                            <p>$$\mathcal{L}(p(z|x)) = I(Z; Y) - \beta I(Z; X)$$</p>
+
+                            <p>Where:</p>
+                            <ul>
+                                <li>$I(Z; Y)$ is the <strong>Mutual Information</strong> between the representation and
+                                    the label (promoting sufficiency).</li>
+                                <li>$I(Z; X)$ is the <strong>Mutual Information</strong> between the input and the
+                                    representation (promoting compression).</li>
+                                <li>$\beta$ is a Lagrange multiplier controlling the trade-off between compression and
+                                    prediction accuracy.</li>
+                            </ul>
+
+                            <h4>4. Applications in Modern AI</h4>
+                            <p>ITL is not merely theoretical; it provides the mathematical scaffolding for several
+                                high-impact areas in modern research:</p>
+                            <ul>
+                                <li><strong style="color: #2c3e50;">Disentangled Representation Learning:</strong> Using
+                                    Mutual Information Minimization to ensure that different latent variables (e.g.,
+                                    shape, color, rotation) are statistically independent.</li>
+                                <li><strong style="color: #2c3e50;">Robustness against Adversarial Attacks:</strong> By
+                                    optimizing for maximum information transfer while minimizing sensitivity to input
+                                    perturbations.</li>
+                                <li><strong style="color: #2c3e50;">Self-Supervised Learning (SSL):</strong> Utilizing
+                                    contrastive learning objectives that are fundamentally rooted in maximizing the
+                                    mutual information between different views of the same data point.</li>
+                            </ul>
+                        </section>
+
+
+                        <section class="blog-article blog-article-section">
+                            <h3>MIMO in the O-RAN Architecture: Scaling Capacity through Open Disaggregation</h3>
+
+                            <p>Massive MIMO (Multiple-Input Multiple-Output) is the cornerstone of 5G and upcoming 6G
+                                networks, providing the spatial multiplexing necessary to meet extreme throughput
+                                demands. However, the traditional, proprietary implementation of MIMO is being
+                                challenged by the <strong>O-RAN (Open Radio Access Network)</strong> paradigm, which
+                                seeks to disaggregate hardware and software through open interfaces.</p>
+
+                            <h4>1. MIMO Beamforming and Spatial Multiplexing</h4>
+                            <p>In a Massive MIMO system, a base station utilizes an array of $N$ antennas to serve
+                                multiple users simultaneously in the same time-frequency resource. This is achieved
+                                through spatial precoding. Let $\mathbf{x}$ be the transmitted signal vector and
+                                $\mathbf{H}$ be the channel matrix of dimension $K \times N$ (where $K$ is the number of
+                                users). The received signal $\mathbf{y}$ at the users is:</p>
+
+                            <p>$$\mathbf{y} = \mathbf{H}\mathbf{x} + \mathbf{n}$$</p>
+
+                            <p>To minimize interference between users, the transmitter applies a precoding matrix
+                                $\mathbf{W}$, such that $\mathbf{x} = \mathbf{W}\mathbf{s}$, where $\mathbf{s}$
+                                represents the intended data symbols. The received signal becomes:</p>
+
+                            <p>$$\mathbf{y} = \mathbf{H}\mathbf{W}\mathbf{s} + \mathbf{n}$$</p>
+
+                            <p>In an O-RAN environment, the computation of $\mathbf{W}$ (e.g., via Zero-Forcing or MMSE
+                                algorithms) is increasingly shifted from specialized proprietary hardware to
+                                software-defined entities.</p>
+
+                            <h4>2. Disaggregation: RU, DU, and CU in O-RAN</h4>
+                            <p>The O-RAN Alliance defines a split architecture that fundamentally changes how MIMO
+                                processing is distributed. The functional split is critical for managing the massive
+                                data rates generated by MIMO:</p>
+                            <ul>
+                                <li><strong style="color: #2c3e50;">Radio Unit (RU):</strong> Handles the low-level
+                                    physical layer (PHY-Low), such as FFT, IFFT, and digital beamforming at the antenna
+                                    element level.</li>
+                                <li><strong style="color: #2c3e50;">Distributed Unit (DU):</strong> Manages the PHY-High
+                                    and MAC layers. This is where complex MIMO tasks like channel estimation, precoding,
+                                    and scheduling occur.</li>
+                                <li><strong style="color: #2c3e50;">Centralized Unit (CU):</strong> Manages the RRC and
+                                    PDCP layers, handling high-level connection management.</li>
+                            </ul>
+
+                            <h4>3. The Impact of Open Interfaces on Channel Estimation</h4>
+                            <p>In traditional MIMO, the channel estimation $\mathbf{H}$ is performed within a single
+                                black-box vendor system. In O-RAN, the <strong>Open Front-haul (7.2x split)</strong>
+                                interface requires that the RU and DU exchange highly compressed versions of the channel
+                                information. The accuracy of the CSI (Channel State Information) feedback is vital. The
+                                effective Signal-to-Interference-plus-Noise Ratio (SINR) for user $k$ can be
+                                approximated as:</p>
+
+                            <p>$$\text{SINR}_k \approx \frac{|\mathbf{h}_k \mathbf{w}_k|^2}{\sum_{j \neq k}
+                                |\mathbf{h}_k \mathbf{w}_j|^2 + \sigma^2}$$</p>
+
+                            <p>The challenge in O-RAN is ensuring that the quantization and latency introduced by the
+                                open interface between the RU and DU do not degrade the $\text{SINR}$ by introducing
+                                errors in the precoding vector $\mathbf{w}_k$.</p>
+
+                            <h4>4. Intelligent RAN: RIC and AI-Driven MIMO</h4>
+                            <p>One of the most transformative aspects of O-RAN is the <strong>RAN Intelligent Controller
+                                    (RIC)</strong>. The RIC allows for "near-real-time" and "non-real-time" intelligence
+                                to be injected into the MIMO loop. This enables:</p>
+                            <ul>
+                                <li><strong style="color: #2c3e50;">AI-Based Beam Management:</strong> Using Machine
+                                    Learning to predict user mobility and pre-emptively adjust beam directions, reducing
+                                    handover latency.</li>
+                                <li><strong style="color: #2c3e50;">Dynamic Spectrum Sharing:</strong> Optimizing MIMO
+                                    spatial layers based on real-time traffic patterns detected by the RIC.</li>
+                                <li><strong style="color: #2c3e50;">Vendor-Agnostic Optimization:</strong> Allowing a
+                                    software controller from "Vendor A" to optimize the MIMO precoding of a radio unit
+                                    from "Vendor B."</li>
+                            </ul>
+                        </section>
+
+
+                        <!-- 1. Include these scripts in your <head> or at the top of your page for the Math to render beautifully -->
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+                        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+                        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+                            onload="renderMathInElement(document.body);"></script>
+
+                        <!-- 2. The Article Content -->
+                        <section class="blog-article blog-article-section">
+                            <h3>Beyond the Nyquist Limit: A Deep Dive into FTN Signaling</h3>
+
+                            <p>Traditional digital communication relies on the Nyquist criterion to prevent intersymbol
+                                interference
+                                (ISI) by ensuring symbol intervals are sufficiently wide. However, Faster-than-Nyquist
+                                (FTN) signaling
+                                breaks this constraint by intentionally compressing the symbol period, thereby
+                                increasing spectral
+                                efficiency at the cost of controlled ISI.</p>
+
+                            <h4>1. Mathematical Signal Model</h4>
+                            <p>In a standard Nyquist-compliant system, symbols are spaced by a period $T$. In FTN, we
+                                introduce a
+                                compression factor $\tau$, where $0 < \tau < 1$, such that the new symbol interval is
+                                    $\tau T$. The transmitted waveform $s(t)$ can be modeled as:</p>
+
+                                    <p>$$s(t) = \sum_{n=-\infty}^{\infty} a_n \, h(t - n\tau T)$$</p>
+
+                                    <p>Where $a_n$ represents the transmitted symbols and $h(t)$ is the pulse shape.
+                                        Because the pulses
+                                        are now closer together than their zero-crossing intervals, the received signal
+                                        $r(t)$ in the
+                                        presence of additive white Gaussian noise (AWGN) $n(t)$ becomes:</p>
+
+                                    <p>$$r(t) = \sum_{n=-\infty}^{\infty} a_n \, h(t - n\tau T) + n(t)$$</p>
+
+                                    <h4>2. The Mazo Limit and Euclidean Distance</h4>
+                                    <p>The primary concern in FTN is the degradation of the minimum Euclidean distance
+                                        ($d_{min}$), which
+                                        dictates the error probability. According to Mazo's theorem, for specific pulse
+                                        shapes and symbol
+                                        constellations, the $d_{min}$ remains relatively constant as long as the
+                                        compression factor $\tau$
+                                        stays above a certain threshold, often referred to as the <strong>Mazo
+                                            Limit</strong>.</p>
+
+                                    <p>If we define the effective channel matrix $\mathbf{H}$ to account for the ISI
+                                        induced by the
+                                        overlap, the signal model in discrete time can be expressed as:</p>
+
+                                    <p>$$\mathbf{y} = \mathbf{H}\mathbf{a} + \mathbf{n}$$</p>
+
+                                    <h4>3. Capacity and Achievable Rate</h4>
+                                    <p>The goal of FTN is to increase the information rate without increasing the
+                                        occupied bandwidth $B$.
+                                        Under optimal detection in a Gaussian channel, the capacity $C$ (or achievable
+                                        mutual information)
+                                        for a given Signal-to-Noise Ratio (SNR) is given by:</p>
+
+                                    <p>$$I = \log_2 \det \left( \mathbf{I} + \frac{\text{SNR}}{N} \mathbf{H}\mathbf{H}^H
+                                        \right)$$</p>
+
+                                    <p>where $\mathbf{H}^H$ denotes the conjugate transpose of the channel matrix. As
+                                        $\tau$ decreases,
+                                        the spectral efficiency $\eta$ increases as $\eta \propto 1/\tau$, allowing for
+                                        higher data rates
+                                        within the same frequency allocation.</p>
+
+                                    <h4>4. Implementation and Detection Challenges</h4>
+                                    <p>While FTN offers a significant boost in spectral efficiency, the "price" is the
+                                        complexity of the
+                                        receiver. Because the channel $\mathbf{H}$ is no longer diagonal, simple matched
+                                        filtering is
+                                        insufficient. Modern implementation focuses on:</p>
+                                    <ul>
+                                        <li><strong>Maximum Likelihood Sequence Estimation (MLSE):</strong> Using the
+                                            Viterbi algorithm to
+                                            find the most likely sequence, though this is computationally expensive.
+                                        </li>
+                                        <li><strong>Iterative Detection:</strong> Combining frequency-domain
+                                            equalization with soft-decision
+                                            decoding (Turbo Equalization).</li>
+                                        <li><strong>Precoding:</strong> Modifying the transmitted symbols to
+                                            pre-compensate for the expected
+                                            ISI.</li>
+                                    </ul>
+                        </section>
+
+
+                        <section class="blog-article blog-article-section">
+                            <h3>Edge Computing in the 6G Ecosystem: Minimizing Latency through Proximity</h3>
+
+                            <p>In the era of cloud computing, data processing typically occurs in centralized data
+                                centers located thousands of kilometers away from the end-user. While efficient for
+                                massive storage, this model introduces significant propagation delays. <strong
+                                    style="color: #2c3e50;">Edge Computing</strong>, specifically Mobile Edge Computing
+                                (MEC), addresses this by migrating computational resources to the periphery of the
+                                network, close to the User Equipment (UE).</p>
+
+                            <h4>1. The Latency Bottleneck and Mathematical Modeling</h4>
+                            <p>The total end-to-end latency ($L_{total}$) in a cloud-based system is the sum of
+                                transmission, propagation, and processing delays. In a cloud model, the propagation
+                                delay ($d_{prop}$) is often the dominant factor. In an Edge Computing model, we aim to
+                                minimize:</p>
+
+                            <p>$$L_{total} = T_{trans} + T_{prop} + T_{proc} + T_{queue}$$</p>
+
+                            <p>By placing the server at the Base Station (gNB in 5G/6G), the propagation delay
+                                $T_{prop}$ is reduced to the scale of microseconds. Furthermore, for a task with size
+                                $D$ (bits) and a transmission rate $R$ (bps), the transmission time is $T_{trans} =
+                                D/R$. Edge computing allows for higher $R$ by utilizing the high-bandwidth, low-latency
+                                links of the access network rather than the congested core network.</p>
+
+                            <h4>2. Task Offloading and Optimization</h4>
+                            <p>A fundamental problem in Edge Computing is <strong style="color: #2c3e50;">Task
+                                    Offloading</strong>: deciding whether a device should process a task locally or
+                                offload it to an Edge Server. This is typically modeled as a decision variable $\alpha
+                                \in \{0, 1\}$, where $\alpha=1$ denotes offloading. The objective is to minimize the
+                                energy consumption $E$ and the latency $L$ simultaneously.</p>
+
+                            <p>The energy cost of offloading a task can be modeled as:</p>
+
+                            <p>$$E_{offload} = P_{tx} \cdot \left( \frac{D}{R} \right)$$</p>
+
+                            <p>Where $P_{tx}$ is the transmission power. The system designer must solve an optimization
+                                problem to find the optimal $\alpha$ such that the objective function $J = \omega_1 L +
+                                \omega_2 E$ (where $\omega$ are weighting factors) is minimized, subject to the device's
+                                battery constraints and the required Quality of Service (QoS).</p>
+
+                            <h4>3. Resource Allocation in Multi-Access Edge Computing (MEC)</h4>
+                            <p>When multiple users compete for limited edge resources (CPU, Memory, Bandwidth), the
+                                problem becomes one of <strong>Resource Allocation</strong>. If we have $K$ users and
+                                $M$ edge nodes, the allocation of computational resources $f_k$ to user $k$ must
+                                satisfy:</p>
+
+                            <p>$$\sum_{k=1}^{K} f_k \le F_{total}$$</p>
+
+                            <p>Where $F_{total}$ is the total available CPU frequency at the edge. In 6G, where
+                                thousands of devices may connect to a single cell, sophisticated algorithms like Deep
+                                Reinforcement Learning (DRL) are required to dynamically allocate these resources to
+                                prevent "edge congestion."</p>
+
+                            <h4>4. The Synergy: Edge, O-RAN, and 6G</h4>
+                            <p>Edge Computing is not a standalone technology but a functional component of the future
+                                network. Its integration with the technologies previously discussed creates a powerful
+                                synergy:</p>
+                            <ul>
+                                <li><strong style="color: #2c3e50;">MIMO + Edge:</strong> Massive MIMO provides the
+                                    high-capacity "pipe" required to offload heavy computational tasks (like AR/VR
+                                    rendering) to the edge without perceptible lag.</li>
+                                <li><strong style="color: #2c3e50;">O-RAN + Edge:</strong> The disaggregated
+                                    architecture of O-RAN allows the Distributed Unit (DU) and Centralized Unit (CU) to
+                                    host edge computing applications directly, enabling "Distributed Edge" capabilities.
+                                </li>
+                                <li><strong style="color: #2c3e50;">6G Intelligence:</strong> The integration of AI at
+                                    the edge enables "Intelligent Edge," where the network doesn't just move data, but
+                                    predicts user needs and pre-allocates computational resources.</li>
+                            </ul>
+                        </section>
+
+                    </div>
+                </section>
+            </main>
+            <footer class="site-footer">© 2026 Sadeq Ebrahimi · <a href="mailto:sadeq@example.com">sadeq@example.com</a>
+            </footer>
+        </div>
     </div>
-    </section>
-    </main>
-    <footer class="site-footer">© 2026 Sadeq Ebrahimi · <a href="mailto:sadeq@example.com">sadeq@example.com</a>
-    </footer>
-  </div>
-  </div>
 </body>
 
 </html>
