@@ -1,10 +1,14 @@
 :root {
   color-scheme: light;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Poppins", Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: #eef2ff;
   color: #0f172a;
   font-size: 16px;
   line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Raleway", sans-serif;
 }
 
 * {
@@ -18,17 +22,16 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.16), transparent 22%),
-    radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.14), transparent 22%),
-    linear-gradient(180deg, #f8fbff 0%, #e7efff 100%);
+  background: linear-gradient(180deg, #eef2ff 0%, #f4f7ff 100%);
+  color: #0f172a;
 }
 
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: radial-gradient(circle at 15% 20%, rgba(59, 130, 246, 0.08), transparent 15%),
-    radial-gradient(circle at 75% 80%, rgba(99, 102, 241, 0.06), transparent 18%);
+  background-image: radial-gradient(circle at 12% 16%, rgba(99, 102, 241, 0.08), transparent 12%),
+    radial-gradient(circle at 78% 78%, rgba(59, 130, 246, 0.06), transparent 16%);
   pointer-events: none;
 }
 
@@ -158,12 +161,11 @@ main {
 .hero,
 .section,
 .blog-section {
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.18);
   border-radius: 36px;
   padding: 40px;
-  box-shadow: 0 32px 80px rgba(15, 23, 42, 0.12);
-  backdrop-filter: blur(8px);
+  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.09);
 }
 
 .hero {
@@ -175,8 +177,8 @@ main {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.12), transparent 30%),
-    radial-gradient(circle at bottom left, rgba(139, 92, 246, 0.08), transparent 35%);
+  background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 32%),
+    radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.05), transparent 38%);
   pointer-events: none;
 }
 
@@ -190,7 +192,7 @@ main {
 
 .hero-copy {
   margin: 24px 0 0;
-  color: #334155;
+  color: #475569;
   max-width: 660px;
 }
 
@@ -218,7 +220,7 @@ main {
 
 .button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 32px rgba(67, 56, 202, 0.18);
+  box-shadow: 0 18px 32px rgba(67, 56, 202, 0.14);
 }
 
 .button-primary {
