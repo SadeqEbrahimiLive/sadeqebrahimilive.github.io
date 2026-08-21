@@ -540,7 +540,7 @@ main {
   color: #475569;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1500px) {
   .layout {
     grid-template-columns: 1fr;
   }
