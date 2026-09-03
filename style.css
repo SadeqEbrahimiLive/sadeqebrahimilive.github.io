@@ -490,6 +490,31 @@ main {
 
 
 
+
+/* Right-side profile photo + contact stack */
+.hero-side {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.profile-photo-card {
+    background: white;
+    padding: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.profile-photo-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+}
+
 /* =====================================================
    CONTACT
 ===================================================== */
