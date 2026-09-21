@@ -946,3 +946,27 @@ main {
     margin-bottom: 20px;
 
 }
+.equation {
+  overflow-x: auto;
+  margin: 1.4rem 0;
+  text-align: center;
+}
+
+.research-question {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-left: 3px solid currentColor;
+  background: rgba(128, 128, 128, 0.06);
+  border-radius: 4px;
+}
+
+.research-question ul {
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+  padding-left: 1.4rem;
+}
+
+.research-question li {
+  margin-bottom: 0.6rem;
+  line-height: 1.6;
+}

@@ -2,7 +2,20 @@
 <html lang="en">
 
 <head>
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['\\(', '\\)']],
+      displayMath: [['\\[', '\\]']]
+    }
+  };
+</script>
 
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 <meta charset="UTF-8" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -141,13 +154,572 @@ Research Directions
 
 
 <p>
-This page provides a comprehensive overview of my current research directions, 
+This page provides overview for some of my research directions, 
 outlining the core objectives, methodologies, and key challenges being addressed across 
 my ongoing projects.
 </p>
 
 </section>
 
+<!-- =====================================================
+     FTN
+===================================================== -->
+
+<section class="section">
+
+  <h2>
+    Faster-than-Nyquist Signaling
+  </h2>
+
+  <article class="research-card">
+
+    <!-- =========================
+         Research Motivation
+    ========================== -->
+
+    <h3>
+      Research Motivation
+    </h3>
+
+    <p style="text-align: justify;">
+      Faster-than-Nyquist (FTN) signaling deliberately relaxes temporal
+      orthogonality by transmitting symbols at intervals shorter than the
+      nominal Nyquist spacing. An FTN waveform can be represented as
+    </p>
+
+<div class="equation">
+  \[
+  x(t)
+  =
+  \sum_{k\in\mathbb{Z}}
+  d_k\,p(t-k\tau T_s),
+  \]
+</div>
+
+    <p style="text-align: justify;">
+      where \(p(t)\) is the transmit pulse, \(T_s\) is the nominal symbol
+      interval, and \(\tau\) is the temporal packing factor. For
+      \(\tau=1\), symbols are transmitted at the nominal Nyquist rate,
+      whereas \(\tau<1\) increases the symbol density by a factor
+      \(1/\tau\). The price is intentional and structured intersymbol
+      interference (ISI), so waveform design and receiver design become
+      much more tightly coupled than in conventional orthogonal transmission.
+    </p>
+
+    <p style="text-align: justify;">
+      My interest in FTN is therefore not limited to using time packing as
+      a direct rate-increase mechanism. I view temporal non-orthogonality as
+      an additional waveform-design degree of freedom. Once orthogonality is
+      relaxed, the pulse shape determines how the desired increase in symbol
+      density is distributed among occupied bandwidth, spectral leakage,
+      alias interactions, ISI structure, numerical stability, and receiver
+      complexity. This viewpoint is particularly relevant to
+      application-specific waveform design and integrated sensing and
+      communication (ISAC), where communication rate is only one of several
+      competing design objectives.
+    </p>
+
+<!-- =========================
+     Research Direction 1
+========================== -->
+
+<h3>
+  Application-Specific Pulse Shaping for FTN
+</h3>
+
+<p style="text-align: justify;">
+  Pulse shaping plays a fundamentally different role in FTN signaling than
+  in conventional Nyquist transmission. In a Nyquist system, the pulse is
+  commonly designed to satisfy a zero-ISI sampling condition while meeting
+  bandwidth and implementation requirements. In FTN, nonzero ISI is
+  intentional. The relevant question is therefore not whether ISI exists,
+  but how the pulse distributes that ISI and how favorable the resulting
+  channel is for a practical receiver.
+</p>
+
+<p style="text-align: justify;">
+  After matched filtering and sampling, the discrete-time FTN channel
+  can be written as
+</p>
+
+<div class="equation">
+  \[
+  \mathbf{y}
+  =
+  \mathbf{G}_{\tau}\mathbf{d}
+  +
+  \mathbf{w},
+  \]
+</div>
+
+<p style="text-align: justify;">
+  where
+</p>
+
+<div class="equation">
+  \[
+  [\mathbf{G}_{\tau}]_{m,k}
+  =
+  g\!\left((m-k)\tau T_s\right),
+  \qquad
+  g(t)
+  =
+  \int
+  p(\xi)p^{*}(\xi-t)\,d\xi .
+  \]
+</div>
+
+<p style="text-align: justify;">
+  Thus, the pulse \(p(t)\) determines the sampled autocorrelation sequence,
+  the Toeplitz FTN Gram operator, and the colored-noise structure after
+  matched filtering. This makes FTN pulse design intrinsically
+  multi-objective. A pulse with low total sampled-ISI energy is not
+  necessarily the easiest pulse to detect, and a globally well-conditioned
+  FTN channel is not necessarily the pulse that gives the best performance
+  under a fixed short-memory detector. Spectral localization, the
+  folded-spectrum floor, total ISI energy, and concentration of the
+  minimum-phase equivalent channel therefore need to be treated as distinct
+  quantities.
+</p>
+
+
+<!-- =========================
+     Current Work
+========================== -->
+
+<h4>
+  Current Work: Cardinal Exponential-Spline Pulses
+</h4>
+
+<p style="text-align: justify;">
+  In my current work, which is under review, I investigate
+  <strong>cardinal exponential-spline (CES)</strong> pulses as a structured,
+  low-dimensional pulse-shaping family for FTN signaling. Conventional
+  square-root raised-cosine (SRRC) pulses are controlled mainly through a
+  single roll-off parameter. In contrast, the CES family is parameterized
+  by several complex poles,
+</p>
+
+<div class="equation">
+  \[
+  \boldsymbol{\alpha}
+  =
+  \{\alpha_1,-\alpha_1,\ldots,\alpha_P,-\alpha_P\},
+  \qquad
+  \alpha_p=\sigma_p+j\omega_p .
+  \]
+</div>
+
+<p style="text-align: justify;">
+  The real components \(\sigma_p\) and imaginary components \(\omega_p\)
+  jointly modify the shape of the underlying exponential-spline spectrum
+  and, after cardinalization, the spectral distribution of the resulting
+  pulse. The opposite-sign construction is used to form the pole set; it
+  should not in general be interpreted as complex-conjugate pairing.
+  The final cardinal pulse is obtained through spectral normalization by
+  the integer-shift alias sum of the underlying exponential spline, and is
+  numerically realized over a finite interval for implementation.
+</p>
+
+<p style="text-align: justify;">
+  The cardinal condition is used here as a deliberate structural constraint,
+  not because FTN fundamentally requires a Nyquist or zero-ISI pulse.
+  Cardinality provides a controlled interpolation structure and a compact
+  parameterization from which FTN pulses can be optimized, but the FTN
+  waveform at \(\tau<1\) remains intentionally non-orthogonal after matched
+  filtering. This distinction is important: the design problem is not to
+  eliminate FTN ISI, but to shape its spectral and numerical properties.
+</p>
+
+
+<!-- =========================
+     Folded Spectrum
+========================== -->
+
+<h4>
+  Folded-Spectrum View of FTN Pulse Design
+</h4>
+
+<p style="text-align: justify;">
+  A central quantity in this work is the FTN folded spectrum. It describes
+  the superposition of spectral replicas created by sampling the
+  matched-filter output at the packed symbol rate and can be written as
+</p>
+
+<div class="equation">
+  \[
+  S_{\mathrm{fold}}
+  (\omega;\boldsymbol{\alpha},\tau)
+  =
+  \frac{1}{\tau}
+  \sum_{k\in\mathbb{Z}}
+  \left|
+  \hat{p}
+  \left(
+  \omega+\frac{2\pi k}{\tau T_s}
+  \right)
+  \right|^2 .
+  \]
+</div>
+
+<p style="text-align: justify;">
+  The folded spectrum is closely related to the spectral symbol of the
+  infinite FTN Gram operator. Consequently, its maximum and minimum provide
+  upper and lower stability bounds. The minimum is particularly important:
+  a deep spectral notch can make the FTN system poorly conditioned even when
+  a peak-to-average ripple measure appears moderate. For this reason, I
+  distinguish folded-spectrum ripple from the condition ratio rather than
+  treating them as interchangeable metrics.
+</p>
+
+<p style="text-align: justify;">
+  The asymptotic stability measure used in the current design is
+</p>
+
+<div class="equation">
+  \[
+  \kappa_{\infty}
+  (\boldsymbol{\alpha},\tau)
+  =
+  \frac{
+    \operatorname*{ess\,sup}_{\omega}
+    S_{\mathrm{fold}}
+    (\omega;\boldsymbol{\alpha},\tau)
+  }{
+    \operatorname*{ess\,inf}_{\omega}
+    S_{\mathrm{fold}}
+    (\omega;\boldsymbol{\alpha},\tau)
+  } .
+  \]
+</div>
+
+<p style="text-align: justify;">
+  This direct folded-spectrum quantity is used for optimization and
+  screening. Finite Toeplitz Gram matrices are used only as convergence
+  diagnostics. The distinction is important in strongly packed FTN systems:
+  for the selected \(\tau=0.7\) CES pulse, for example, a \(5\times5\)
+  Gram matrix gives a condition number of only about \(19.8\), whereas
+  increasing the matrix dimension gives approximately \(3120\), \(3956\),
+  \(4250\), and \(4389\) for dimensions \(16\), \(32\), \(64\), and
+  \(128\), respectively. The direct folded-spectrum value is about
+  \(4450\). A small truncated Gram matrix can therefore severely
+  underestimate the actual stability problem.
+</p>
+
+
+<!-- =========================
+     Optimization Framework
+========================== -->
+
+<h4>
+  Multi-Objective FTN Pulse Optimization
+</h4>
+
+<p style="text-align: justify;">
+  In the current CES framework, the pole parameters are selected through an
+  empirical Pareto search. The objectives simultaneously reward spectral
+  efficiency while penalizing energy outside the FTN Nyquist cell and
+  nonuniformity of the folded spectrum:
+</p>
+
+<div class="equation">
+  \[
+  \underset{\boldsymbol{\theta}}{\operatorname{maximize}}
+  \quad
+  \mathbf{F}(\boldsymbol{\theta})
+  =
+  \begin{bmatrix}
+  \mathrm{SE}(\boldsymbol{\theta}) \\
+  -\mathrm{OC\!-\!AER}(\boldsymbol{\theta}) \\
+  -\mathrm{Ripple}(\boldsymbol{\theta})
+  \end{bmatrix}
+  \]
+</div>
+
+<div class="equation">
+  \[
+  \text{subject to}
+  \qquad
+  \kappa_{\infty}(\boldsymbol{\theta})
+  \leq
+  \kappa_{\max}.
+  \]
+</div>
+
+<p style="text-align: justify;">
+  The search currently uses six CES poles, corresponding to three
+  opposite-sign pole pairs, with
+  \(\sigma_p\in[-1,1]\) and \(\omega_p\in[-\pi,\pi]\).
+  For each packing factor, 5000 parameter vectors are sampled and screened
+  using hard limits on OC-AER, folded-spectrum ripple, and
+  \(\kappa_{\infty}\). The nondominated candidates form an empirical Pareto
+  set. To avoid selecting a design that gains only a negligible amount of
+  spectral efficiency at the cost of poor conditioning, the final pulse is
+  chosen as the minimum-\(\kappa_{\infty}\) Pareto candidate whose spectral
+  efficiency lies within \(0.5\%\) of the maximum observed Pareto SE.
+</p>
+
+<p style="text-align: justify;">
+  The resulting tradeoffs depend on the packing factor. For
+  \(\tau=0.6\), the selected CES pulse has gross SE
+  \(5.007\) bit/s/Hz, OC-AER \(-51.83\) dB, folded-spectrum ripple
+  \(2.47\) dB, and \(\kappa_{\infty}\approx1.52\times10^4\).
+  At \(\tau=0.7\), the corresponding values are
+  \(4.297\) bit/s/Hz, \(-51.01\) dB, \(1.82\) dB, and
+  \(\kappa_{\infty}\approx4.45\times10^3\).
+  At \(\tau=0.8\), stronger stability can be obtained
+  (\(\kappa_{\infty}\approx831\)), but the selected CES pulse uses slightly
+  more occupied bandwidth and its gross SE decreases to about
+  \(3.706\) bit/s/Hz. The optimization therefore exposes a tradeoff rather
+  than a single pulse that is uniformly superior in every metric.
+</p>
+
+
+<!-- =========================
+     Research Extension
+========================== -->
+
+<h4>
+  Toward Application-Specific FTN Pulses
+</h4>
+
+<p style="text-align: justify;">
+  The broader research direction is to extend this parametric and
+  multi-objective framework beyond communication-centric spectral metrics
+  and design FTN waveforms according to the requirements of the target
+  application. Conceptually, the design can be generalized as
+</p>
+
+<div class="equation">
+  \[
+  p^{\star}(t)
+  =
+  \underset{p(t),\,\tau}{\operatorname{arg\,min}}
+  \;
+  \sum_{i}
+  w_i J_i\!\left(p,\tau\right),
+  \]
+</div>
+
+<p style="text-align: justify;">
+  where the objectives \(J_i\) can represent communication efficiency,
+  sensing accuracy, Doppler robustness, spectral masks, receiver memory,
+  implementation cost, or other application-dependent quantities. The
+  current results already show why this extension is necessary. At
+  \(\tau=0.7\), for example, CES has slightly larger total sampled-ISI
+  energy than the bandwidth-matched SRRC pulse, but its minimum-phase
+  equivalent channel is more concentrated within the four taps retained by
+  the reduced-memory detector. Conversely, an SRRC pulse with larger
+  roll-off can achieve even stronger short-memory concentration and lower
+  BER, but only by consuming substantially more bandwidth.
+</p>
+
+<div class="equation">
+  \[
+  \begin{array}{c}
+  \text{Communication-centric}
+  \\
+  \Downarrow
+  \\
+  \{
+  \mathrm{SE},
+  \mathrm{OC\!-\!AER},
+  \mathrm{Ripple},
+  \kappa_{\infty}
+  \}
+  \end{array}
+  \qquad\longrightarrow\qquad
+  \begin{array}{c}
+  \text{Application-specific}
+  \\
+  \Downarrow
+  \\
+  \{
+  J_{\mathrm{comm}},
+  J_{\mathrm{sense}},
+  J_{\mathrm{Doppler}},
+  J_{\mathrm{complexity}}
+  \}
+  \end{array}
+  \]
+</div>
+
+<div class="research-question">
+
+  <strong>
+    Research questions:
+  </strong>
+
+  <ul>
+
+    <li>
+      Can multi-parameter pulse families provide FTN operating points that
+      cannot be reached by varying only the roll-off factor of a conventional
+      Nyquist-derived pulse?
+    </li>
+
+    <li>
+      Which waveform quantities actually predict performance when the
+      receiver has limited memory: total sampled ISI, the global
+      folded-spectrum condition ratio, minimum-phase channel concentration,
+      or a combination of them?
+    </li>
+
+    <li>
+      How should FTN pulses be redesigned when communication spectral
+      efficiency is only one objective among sensing accuracy, Doppler
+      tolerance, spectral coexistence, and receiver complexity?
+    </li>
+
+    <li>
+      Can the pulse parameters, FTN packing factor, and detector memory be
+      jointly optimized rather than treating waveform design and receiver
+      design as separate problems?
+    </li>
+
+  </ul>
+
+</div>
+
+<p class="research-note" style="text-align: justify;">
+  <strong>Current research:</strong>
+  My manuscript under review develops a Pareto-optimized cardinal
+  exponential-spline pulse family for FTN signaling. At
+  \(\tau=0.7\), the selected CES pulse has
+  \(B_{99}=0.9973\) MHz and gross FTN spectral efficiency
+  \(4.2973\) bit/s/Hz, compared with \(1.0010\) MHz and
+  \(4.2815\) bit/s/Hz for an approximately bandwidth-matched
+  SRRC pulse with \(\beta=0.05\). CES reduces OC-AER from
+  \(-39.95\) to \(-51.01\) dB, reduces folded-spectrum ripple from
+  \(2.19\) to \(1.82\) dB, and reduces
+  \(\kappa_{\infty}\) from about \(7805\) to \(4450\).
+  Under the same four-tap, 512-state reduced-memory BCJR receiver,
+  CES also lowers the coded BER: at \(E_b/N_0=10\) dB, the observed
+  BER is approximately \(3.94\times10^{-4}\), compared with
+  \(1.19\times10^{-3}\) for SRRC with \(\beta=0.05\).
+  A larger-roll-off SRRC pulse with \(\beta=0.25\) reaches a still lower
+  BER of about \(2.07\times10^{-4}\), but its occupied bandwidth increases
+  to \(1.1011\) MHz and its gross FTN spectral efficiency decreases to
+  \(3.8923\) bit/s/Hz. This comparison highlights the central design
+  tradeoff: spectral efficiency, global stability, raw ISI, and
+  finite-memory detection performance are related but are not equivalent
+  optimization criteria.
+</p>
+  
+    <!-- =========================
+         Research Direction 2
+    ========================== -->
+
+    <h3>
+      FTN for Sensing-Centric ISAC
+    </h3>
+
+    <p style="text-align: justify;">
+      In an ISAC system, emphasizing sensing performance can constrain the
+      waveform, bandwidth, power allocation, or precoder and thereby reduce
+      the communication operating space. FTN introduces an additional
+      controllable dimension through the packing factor \(\tau\). Instead of
+      immediately increasing occupied bandwidth, communication throughput can
+      be modified through temporal packing while the pulse is simultaneously
+      shaped to satisfy sensing and receiver constraints.
+    </p>
+
+    <p style="text-align: justify;">
+      A sensing-constrained FTN system can be viewed through the optimization
+    </p>
+
+    <div class="equation">
+      \[
+      \underset{\tau,\boldsymbol{\theta}}{\operatorname{maximize}}
+      \quad
+      \eta_{\mathrm{c}}(\tau,\boldsymbol{\theta})
+      =
+      \frac{R_{\mathrm{c}}(\tau,\boldsymbol{\theta})}{B}
+      \]
+      \[
+      \text{subject to}
+      \qquad
+      J_{\mathrm{s}}(\tau,\boldsymbol{\theta})
+      \leq \epsilon_{\mathrm{s}},
+      \qquad
+      0<\tau\leq1,
+      \qquad
+      P\leq P_{\max},
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      where \(R_{\mathrm{c}}\) is the achievable communication rate,
+      \(J_{\mathrm{s}}\) is an application-dependent sensing cost, and
+      \(\boldsymbol{\theta}\) can include the pulse parameters together with
+      variables such as precoding, power allocation, or receiver settings.
+      In this formulation, \(\tau\) is not simply a rate-control parameter:
+      changing the symbol spacing also changes the temporal correlation,
+      spectrum, ambiguity structure, and interference geometry of the
+      transmitted waveform.
+    </p>
+
+    <p style="text-align: justify;">
+      For parameter-estimation applications, sensing requirements may instead
+      be expressed through constraints such as
+    </p>
+
+    <div class="equation">
+      \[
+      \operatorname{CRLB}_{r}\leq\epsilon_r,
+      \qquad
+      \operatorname{CRLB}_{v}\leq\epsilon_v,
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      corresponding, for example, to range and radial-velocity estimation
+      accuracy. These constraints create a natural connection between
+      waveform shaping and FTN packing because both affect the temporal and
+      spectral moments that determine sensing information.
+      Another useful characterization is the delay-Doppler ambiguity
+      function,
+    </p>
+
+    <div class="equation">
+      \[
+      \chi_s(\Delta,\nu)
+      =
+      \int
+      s(t)s^{*}(t-\Delta)
+      e^{-j2\pi\nu t}\,dt,
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      which characterizes the response of the transmitted waveform to delay
+      and Doppler offsets. FTN modifies \(s(t)\) through both the packing
+      factor and the pulse overlap, so the ambiguity structure cannot in
+      general be inferred from the isolated pulse alone. This motivates
+      studying the complete time-packed waveform rather than optimizing
+      communication and sensing properties independently.
+    </p>
+
+    <div class="research-question">
+      <strong>Research questions:</strong>
+      <ul>
+        <li>
+          How aggressively can symbols be packed while satisfying explicit
+          range, velocity, or ambiguity-function constraints?
+        </li>
+
+        <li>
+          Can FTN recover communication spectral efficiency when an ISAC
+          waveform is forced toward a sensing-dominant operating point?
+        </li>
+
+        <li>
+          Can pulse shape and temporal packing be selected jointly so that the
+          resulting non-orthogonality is useful for sensing while remaining
+          manageable for communication detection?
+        </li>
+      </ul>
+    </div>
 
 <!-- =====================================================
      ARRAY PROCESSING
@@ -247,431 +819,1680 @@ Localization
 
 
 
-
-
 <!-- =====================================================
-     SPARSE PROCESSING
+     SPARSE AND STRUCTURED SIGNAL PROCESSING
 ===================================================== -->
-
 
 <section class="section">
 
+  <h2>
+    Sparse and Structured Signal Processing
+  </h2>
 
-<h2>
-Sparse and Structured Signal Processing
-</h2>
-
-
-
-<article class="research-card">
+  <article class="research-card">
 
 
-<h3>
-Research Motivation
-</h3>
+    <!-- =========================
+         Research Motivation
+    ========================== -->
+
+    <h3>
+      Research Motivation
+    </h3>
+
+    <p style="text-align: justify;">
+      Many estimation problems in next-generation wireless systems share a
+      common mathematical structure. A high-dimensional physical quantity must
+      be recovered from a limited number of noisy observations, while only a
+      small number of its components are significant.
+    </p>
+
+    <p style="text-align: justify;">
+      A generic sparse inverse problem can be written as
+    </p>
+
+    <div class="equation">
+      \[
+      \mathbf{y} = \mathbf{A}\mathbf{x} + \mathbf{n}
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      where \( \mathbf{y} \) is the observation vector,
+      \( \mathbf{A} \) is the sensing or measurement matrix,
+      \( \mathbf{x} \) is the unknown physical representation, and
+      \( \mathbf{n} \) represents noise and modeling errors.
+    </p>
+
+    <p style="text-align: justify;">
+      The key assumption is that the unknown vector is sparse:
+    </p>
+
+    <div class="equation">
+      \[
+      \|\mathbf{x}\|_0 \ll N
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      meaning that only a small number of entries of
+      \( \mathbf{x}\in\mathbb{C}^{N} \) contain significant information.
+      This structure can make an otherwise underdetermined estimation problem
+      recoverable.
+    </p>
+
+    <div class="research-question">
+      <strong>
+        Although many wireless applications lead to a similar sparse inverse
+        model, how should the recovery algorithm be designed to exploit the
+        specific physical structure of each problem?
+      </strong>
+    </div>
 
 
-<p align="justify">
+    <!-- =========================
+         Sparse Recovery
+    ========================== -->
 
-Many modern communication and sensing systems generate high-dimensional data
-while only a limited number of parameters contain significant information.
-Sparse signal processing provides a mathematical framework for recovering
-meaningful information using fewer measurements and reduced computational
-resources.
+    <h3>
+      Sparse Recovery
+    </h3>
 
-</p>
+    <p style="text-align: justify;">
+      Ideally, sparse estimation seeks the solution containing the smallest
+      number of nonzero components:
+    </p>
 
+    <div class="equation">
+      \[
+      \min_{\mathbf{x}}
+      \|\mathbf{x}\|_0
+      \quad
+      \text{subject to}
+      \quad
+      \|\mathbf{y}-\mathbf{A}\mathbf{x}\|_2^2
+      \leq
+      \varepsilon
+      \]
+    </div>
 
+    <p style="text-align: justify;">
+      Since direct \( \ell_0 \)-based optimization is generally
+      combinatorial, practical algorithms exploit alternative formulations.
+      A common convex relaxation uses the \( \ell_1 \)-norm:
+    </p>
 
-<h3>
-Research Challenges
-</h3>
+    <div class="equation">
+      \[
+      \min_{\mathbf{x}}
+      \frac{1}{2}
+      \|\mathbf{y}-\mathbf{A}\mathbf{x}\|_2^2
+      +
+      \lambda\|\mathbf{x}\|_1
+      \]
+    </div>
 
-
-<p align="justify">
-
-Important challenges include robustness against noise, model uncertainty,
-computational complexity, and the design of algorithms that exploit the
-structure of real-world signals.
-
-</p>
-
-
-
-<h3>
-Research Direction
-</h3>
-
-
-<p align="justify">
-
-My interests include sparse estimation methods for wireless systems,
-structured recovery problems, and efficient algorithms for parameter
-estimation in communication and sensing applications.
-
-</p>
-
-
-
-<div class="tag-list">
-
-<span>
-Compressed Sensing
-</span>
-
-<span>
-Sparse Estimation
-</span>
-
-<span>
-Channel Estimation
-</span>
-
-<span>
-High-Dimensional Inference
-</span>
+    <p style="text-align: justify;">
+      Other possibilities include greedy algorithms, sparse Bayesian
+      learning, message passing, atomic-norm methods, and structured sparse
+      recovery. The appropriate approach depends on the physical meaning of
+      \( \mathbf{A} \) and \( \mathbf{x} \).
+    </p>
 
 
-</div>
+    <!-- =========================
+         Common Wireless Model
+    ========================== -->
+
+    <h3>
+      A Common Model Across Wireless Applications
+    </h3>
+
+    <p style="text-align: justify;">
+      The physical meaning of the sparse vector changes across applications,
+      while the underlying inverse problem often remains similar.
+    </p>
 
 
-</article>
+    <!-- DOA -->
 
+    <h4>
+      Spatial and Direction-of-Arrival Estimation
+    </h4>
+
+    <p style="text-align: justify;">
+      In array processing, the observation model can be written as
+    </p>
+
+    <div class="equation">
+      \[
+      \mathbf{y}
+      =
+      \mathbf{A}_{\mathrm{ang}}
+      \mathbf{x}_{\mathrm{ang}}
+      +
+      \mathbf{n}
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      where the columns of \( \mathbf{A}_{\mathrm{ang}} \) represent array
+      responses associated with candidate directions and
+      \( \mathbf{x}_{\mathrm{ang}} \) contains the corresponding source
+      amplitudes.
+    </p>
+
+    <div class="equation">
+      \[
+      \|\mathbf{x}_{\mathrm{ang}}\|_0
+      \ll
+      N_{\mathrm{ang}}
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      This motivates sparse and super-resolution approaches for direction
+      finding, localization, and spatial sensing.
+    </p>
+
+
+    <!-- CHANNEL ESTIMATION -->
+
+    <h4>
+      mmWave and THz Channel Estimation
+    </h4>
+
+    <p style="text-align: justify;">
+      High-frequency wireless channels are often dominated by a relatively
+      small number of propagation paths. In an angular or beamspace
+      representation,
+    </p>
+
+    <div class="equation">
+      \[
+      \mathbf{y}
+      =
+      \mathbf{A}_{\mathrm{ch}}
+      \mathbf{x}_{\mathrm{path}}
+      +
+      \mathbf{n}
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      where \( \mathbf{x}_{\mathrm{path}} \) contains the gains associated
+      with possible propagation paths.
+    </p>
+
+    <div class="equation">
+      \[
+      L
+      =
+      \|\mathbf{x}_{\mathrm{path}}\|_0
+      \ll
+      N_{\mathrm{path}}
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      Sparse recovery can therefore reduce pilot overhead while exploiting
+      the physical propagation structure of large-array systems.
+    </p>
+
+
+    <!-- ISAC -->
+
+    <h4>
+      ISAC and Delay-Doppler Recovery
+    </h4>
+
+    <p style="text-align: justify;">
+      In sensing and integrated sensing and communication, the environment can
+      often be represented by a small number of targets or propagation
+      components in the delay-Doppler domain:
+    </p>
+
+    <div class="equation">
+      \[
+      \mathbf{y}
+      =
+      \mathbf{A}_{\mathrm{DD}}
+      \mathbf{x}_{\mathrm{DD}}
+      +
+      \mathbf{n}
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      If only a limited number of delay-Doppler components are present,
+    </p>
+
+    <div class="equation">
+      \[
+      \|\mathbf{x}_{\mathrm{DD}}\|_0
+      \ll
+      N_{\tau}N_{\nu}
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      sparse estimation can be used for target detection, delay-Doppler
+      estimation, channel sensing, and joint communication-sensing inference.
+    </p>
+
+
+    <!-- MASSIVE ACCESS -->
+
+    <h4>
+      Grant-Free Massive Access
+    </h4>
+
+    <p style="text-align: justify;">
+      Sparse models also arise in massive machine-type communication, where
+      a network may contain a very large number of devices but only a small
+      subset are active at a given time.
+    </p>
+
+    <div class="equation">
+      \[
+      \mathbf{Y}
+      =
+      \mathbf{A}_{\mathrm{pilot}}
+      \mathbf{X}_{\mathrm{user}}
+      +
+      \mathbf{N}
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      In this case, sparsity appears in the user-activity domain:
+    </p>
+
+    <div class="equation">
+      \[
+      K_{\mathrm{active}}
+      \ll
+      K_{\mathrm{total}}
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      The receiver must determine both which users are active and the
+      information associated with those users.
+    </p>
+
+
+    <!-- NEAR FIELD -->
+
+    <h4>
+      Near-Field and Extremely Large Arrays
+    </h4>
+
+    <p style="text-align: justify;">
+      For extremely large antenna arrays, far-field angular models may no
+      longer be sufficient because the channel can depend jointly on angle
+      and range.
+    </p>
+
+    <div class="equation">
+      \[
+      \mathbf{y}
+      =
+      \mathbf{A}_{\mathrm{NF}}
+      \mathbf{x}_{\mathrm{AR}}
+      +
+      \mathbf{n}
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      Here, \( \mathbf{x}_{\mathrm{AR}} \) represents a sparse
+      angle-range-domain description of the propagation environment.
+      The sparse structure remains useful, but the underlying dictionary and
+      geometry differ from conventional far-field systems.
+    </p>
+
+
+    <!-- =========================
+         Common Mathematical Structure
+    ========================== -->
+
+    <h3>
+      Same Model, Different Recovery Problems
+    </h3>
+
+    <p style="text-align: justify;">
+      The applications above share the general model
+    </p>
+
+    <div class="equation">
+      \[
+      \mathbf{y}
+      =
+      \mathbf{A}\mathbf{x}
+      +
+      \mathbf{n},
+      \qquad
+      \|\mathbf{x}\|_0 \ll N
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      However, the physical structure represented by \( \mathbf{x} \) differs
+      significantly between applications:
+    </p>
+
+    <ul>
+
+      <li>
+        <strong>DOA estimation:</strong>
+        sparsity in the angular domain.
+      </li>
+
+      <li>
+        <strong>mmWave and THz channels:</strong>
+        sparsity in propagation paths.
+      </li>
+
+      <li>
+        <strong>ISAC:</strong>
+        sparsity in delay, Doppler, angle, or target domains.
+      </li>
+
+      <li>
+        <strong>Massive access:</strong>
+        sparsity in user activity.
+      </li>
+
+      <li>
+        <strong>Near-field systems:</strong>
+        joint angle-range sparsity.
+      </li>
+
+    </ul>
+
+    <p style="text-align: justify;">
+      The central challenge is therefore not simply to apply the same sparse
+      algorithm everywhere, but to identify and exploit the structure that
+      corresponds to each physical problem.
+    </p>
+
+
+    <!-- =========================
+         Off-Grid Estimation
+    ========================== -->
+
+    <h3>
+      Off-Grid and Continuous Parameter Estimation
+    </h3>
+
+    <p style="text-align: justify;">
+      One important limitation of conventional sparse recovery is the use of
+      predefined discrete dictionaries. For example, an angular dictionary
+      may assume the grid
+    </p>
+
+    <div class="equation">
+      \[
+      \Theta_{\mathrm{grid}}
+      =
+      \left\{
+      \theta_1,
+      \theta_2,
+      \ldots,
+      \theta_G
+      \right\}
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      while a physical direction \( \theta^\star \) can lie between two grid
+      points:
+    </p>
+
+    <div class="equation">
+      \[
+      \theta^\star
+      \notin
+      \Theta_{\mathrm{grid}}
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      This basis mismatch can reduce estimation accuracy, particularly in
+      high-resolution array-processing and sensing problems. Off-grid,
+      gridless, sparse Bayesian, and super-resolution methods provide ways to
+      estimate continuous physical parameters more accurately.
+    </p>
+
+
+    <!-- =========================
+         Structured Sparsity
+    ========================== -->
+
+    <h3>
+      Exploiting Structure Beyond Element-Wise Sparsity
+    </h3>
+
+    <p style="text-align: justify;">
+      Wireless coefficients are often not independent. Significant components
+      may appear in clusters, share common support across antennas or time,
+      or belong to physically related groups.
+    </p>
+
+    <p style="text-align: justify;">
+      Suppose the unknown vector is divided into \(G\) groups:
+    </p>
+
+    <div class="equation">
+      \[
+      \mathbf{x}
+      =
+      \left[
+      \mathbf{x}_1^{T},
+      \mathbf{x}_2^{T},
+      \ldots,
+      \mathbf{x}_G^{T}
+      \right]^{T}
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      A group-sparse estimator can then use
+    </p>
+
+    <div class="equation">
+      \[
+      \min_{\mathbf{x}}
+      \frac{1}{2}
+      \|\mathbf{y}-\mathbf{A}\mathbf{x}\|_2^2
+      +
+      \lambda
+      \sum_{g=1}^{G}
+      \|\mathbf{x}_g\|_2
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      rather than penalizing every coefficient independently. Similar ideas
+      can be extended to joint sparsity, hierarchical sparsity, low-rank
+      structure, and tensor representations.
+    </p>
+
+
+    <!-- =========================
+         Dynamic Sparsity
+    ========================== -->
+
+    <h3>
+      Dynamic Sparse Recovery
+    </h3>
+
+    <p style="text-align: justify;">
+      Wireless environments are inherently time-varying. In many applications,
+      the objective is therefore to track a sequence of sparse states rather
+      than estimate a single static vector.
+    </p>
+
+    <div class="equation">
+      \[
+      \mathbf{y}_n
+      =
+      \mathbf{A}_n\mathbf{x}_n
+      +
+      \mathbf{n}_n
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      The sparse support may evolve gradually:
+    </p>
+
+    <div class="equation">
+      \[
+      \operatorname{supp}(\mathbf{x}_n)
+      \approx
+      \operatorname{supp}(\mathbf{x}_{n-1})
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      Exploiting this temporal relationship can improve channel tracking,
+      beam tracking, target tracking, and dynamic user-activity detection.
+    </p>
+
+
+    <!-- =========================
+         Research Questions
+    ========================== -->
+
+    <div class="research-question">
+
+      <strong>
+        Research questions:
+      </strong>
+
+      <ul>
+
+        <li>
+          How should the physical structure of a wireless problem be mapped
+          into the sparse model
+          \( \mathbf{y}=\mathbf{A}\mathbf{x}+\mathbf{n} \)?
+        </li>
+
+        <li>
+          Which recovery method is most suitable when sparsity appears in
+          angle, delay-Doppler, user activity, propagation paths, or
+          angle-range domains?
+        </li>
+
+        <li>
+          How can off-grid and gridless approaches reduce basis mismatch in
+          continuous angle, delay, Doppler, and range estimation?
+        </li>
+
+        <li>
+          When should group, joint, hierarchical, low-rank, or dynamic
+          structures be exploited instead of conventional element-wise
+          sparsity?
+        </li>
+
+        <li>
+          How can sparse recovery remain computationally efficient as the
+          dimensions of massive MIMO, THz, near-field, and ISAC systems grow?
+        </li>
+
+        <li>
+          How can model-based sparse inference be combined with learning or
+          adaptive methods when the measurement model is imperfect or
+          changes over time?
+        </li>
+
+      </ul>
+
+    </div>
+
+
+    <!-- =========================
+         Research Vision
+    ========================== -->
+
+    <h4>
+      Research Vision
+    </h4>
+
+    <p style="text-align: justify;">
+      My interest is not limited to applying a single sparse recovery
+      algorithm across different wireless systems. The broader objective is
+      to identify the physical structure hidden in each inverse problem and
+      develop recovery methods that exploit that structure efficiently.
+    </p>
+
+    <p style="text-align: center;">
+      <strong>
+        Physical problem
+        &rarr;
+        sparse model
+        &rarr;
+        problem-specific structure
+        &rarr;
+        structured recovery
+      </strong>
+    </p>
+
+
+    <!-- =========================
+         Tags
+    ========================== -->
+
+    <div class="tag-list">
+
+      <span>
+        Sparse Signal Processing
+      </span>
+
+      <span>
+        Compressed Sensing
+      </span>
+
+      <span>
+        Structured Sparsity
+      </span>
+
+      <span>
+        Sparse Bayesian Learning
+      </span>
+
+      <span>
+        Super-Resolution
+      </span>
+
+      <span>
+        Channel Estimation
+      </span>
+
+      <span>
+        Array Processing
+      </span>
+
+      <span>
+        ISAC
+      </span>
+
+    </div>
+
+  </article>
 
 </section>
-
-
-
-
-
-
-
 <!-- =====================================================
-     FTN
+     LEARNING-BASED WIRELESS SIGNAL PROCESSING
 ===================================================== -->
-
 
 <section class="section">
 
+  <h2>
+    Learning-Based Wireless Signal Processing
+  </h2>
 
-<h2>
-Advanced Waveforms and Faster-than-Nyquist Signaling
-</h2>
-
-
-
-<article class="research-card">
+  <article class="research-card">
 
 
-<h3>
-Research Motivation
-</h3>
+    <!-- =========================
+         Research Motivation
+    ========================== -->
+
+    <h3>
+      Research Motivation
+    </h3>
+
+    <p style="text-align: justify;">
+      Classical wireless signal-processing algorithms are usually derived
+      from analytical models of the propagation channel, interference,
+      mobility, noise, and hardware. These models provide valuable physical
+      insight and interpretability, but their accuracy can deteriorate when
+      the actual environment is nonlinear, time-varying, or only partially
+      known.
+    </p>
+
+    <p style="text-align: justify;">
+      Learning-based signal processing provides a complementary approach:
+      rather than relying entirely on a predefined analytical model, the
+      system learns useful input-output relationships directly from observed
+      data. I am particularly interested in learning methods that preserve the
+      adaptive and recursive nature of classical signal processing while
+      providing nonlinear modeling capability.
+    </p>
+
+    <div class="research-question">
+      <strong>
+        How can learning-based methods exploit observed wireless data while
+        remaining adaptive, computationally efficient, and compatible with
+        the physical structure of communication systems?
+      </strong>
+    </div>
 
 
-<p align="justify">
+    <!-- =========================
+         From Linear Adaptive Filtering to Kernels
+    ========================== -->
 
-The rapid growth of wireless traffic creates continuous demand for higher
-spectral efficiency. Faster-than-Nyquist signaling explores the possibility
-of transmitting symbols closer than the conventional Nyquist interval while
-maintaining reliable communication through appropriate signal processing.
+    <h3>
+      From Linear Adaptive Filtering to Kernel Methods
+    </h3>
 
-</p>
+    <p style="text-align: justify;">
+      Consider a sequence of input-output observations
+      \( \{\mathbf{x}_n,d_n\} \), where
+      \( \mathbf{x}_n \) contains the available measurements and
+      \( d_n \) denotes the desired response.
+      A conventional linear adaptive filter models the prediction as
+    </p>
+
+    <div class="equation">
+      \[
+      \widehat{d}_n
+      =
+      \mathbf{w}_n^{H}\mathbf{x}_n ,
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      where \( \mathbf{w}_n \) is updated as new observations become
+      available. This model is computationally attractive, but its
+      representation capability is limited when the relationship between
+      \( \mathbf{x}_n \) and \( d_n \) is strongly nonlinear.
+    </p>
+
+    <p style="text-align: justify;">
+      Kernel methods address this limitation by implicitly mapping the input
+      into a higher-dimensional feature space,
+    </p>
+
+    <div class="equation">
+      \[
+      \mathbf{x}
+      \longmapsto
+      \boldsymbol{\phi}(\mathbf{x}),
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      while evaluating inner products in that space through a kernel function
+    </p>
+
+    <div class="equation">
+      \[
+      \kappa(\mathbf{x}_i,\mathbf{x}_j)
+      =
+      \left\langle
+      \boldsymbol{\phi}(\mathbf{x}_i),
+      \boldsymbol{\phi}(\mathbf{x}_j)
+      \right\rangle .
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      The nonlinear feature mapping therefore does not need to be constructed
+      explicitly.
+    </p>
 
 
+    <!-- =========================
+         Gaussian Kernel
+    ========================== -->
 
-<h3>
-Technical Challenge
-</h3>
+    <h4>
+      Example: Gaussian Kernel
+    </h4>
 
+    <p style="text-align: justify;">
+      A commonly used kernel is the Gaussian radial-basis-function (RBF) kernel,
+    </p>
 
-<p align="justify">
+    <div class="equation">
+      \[
+      \kappa(\mathbf{x}_i,\mathbf{x}_j)
+      =
+      \exp
+      \left(
+      -
+      \frac{
+      \left\|
+      \mathbf{x}_i-\mathbf{x}_j
+      \right\|_2^2
+      }{
+      2\sigma_k^2
+      }
+      \right),
+      \]
+    </div>
 
-Increasing symbol density introduces controlled intersymbol interference,
-creating a trade-off between spectral efficiency and receiver complexity.
-Effective waveform design and detection strategies are required to exploit
-the available bandwidth efficiently.
+    <p style="text-align: justify;">
+      where \( \sigma_k \) is the kernel width. Two observations that are
+      close in the input space produce a kernel value close to one, whereas
+      sufficiently different observations produce a smaller similarity.
+    </p>
 
-</p>
-
-
-
-<h3>
-Research Activity
-</h3>
-
-
-<p align="justify">
-
-My recent work investigates pulse-shaping design for Faster-than-Nyquist
-signaling, focusing on improving spectral efficiency while managing the
-interference introduced by intentional symbol overlap.
-
-</p>
-
-
-
-<div class="tag-list">
-
-<span>
-FTN Signaling
-</span>
-
-<span>
-Pulse Shaping
-</span>
-
-<span>
-Waveform Design
-</span>
-
-<span>
-Receiver Processing
-</span>
+    <p style="text-align: justify;">
+      The kernel width therefore controls the scale of the nonlinear model:
+      a small \( \sigma_k \) produces a more localized predictor, while a
+      larger \( \sigma_k \) produces a smoother mapping.
+    </p>
 
 
-</div>
+    <!-- =========================
+         Classical RLS
+    ========================== -->
+
+    <h3>
+      Recursive Least Squares
+    </h3>
+
+    <p style="text-align: justify;">
+      Recursive least squares (RLS) is a classical adaptive filtering
+      technique that updates the model sequentially instead of repeatedly
+      solving a batch least-squares problem. At time \(n\), an exponentially
+      weighted least-squares criterion can be written as
+    </p>
+
+    <div class="equation">
+      \[
+      J_n(\mathbf{w})
+      =
+      \sum_{i=1}^{n}
+      \lambda^{\,n-i}
+      \left|
+      d_i-\mathbf{w}^{H}\mathbf{x}_i
+      \right|^2 ,
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      where \( 0&lt;\lambda\leq1 \) is the forgetting factor.
+      When \( \lambda \) is close to one, the algorithm retains a longer
+      history. Reducing \( \lambda \) gives more importance to recent
+      observations and allows faster tracking of changing environments.
+    </p>
+
+    <div class="equation">
+      \[
+      \lambda \approx 1
+      \quad\Longrightarrow\quad
+      \text{longer memory},
+      \]
+      \[
+      \lambda < 1
+      \quad\Longrightarrow\quad
+      \text{faster adaptation}.
+      \]
+    </div>
 
 
-</article>
+    <!-- =========================
+         KRLS
+    ========================== -->
 
+    <h3>
+      Kernel Recursive Least Squares
+    </h3>
+
+    <p style="text-align: justify;">
+      Kernel recursive least squares (KRLS) combines the recursive adaptation
+      of RLS with the nonlinear representation capability of kernel methods.
+      By applying RLS in a reproducing kernel Hilbert space (RKHS), the
+      resulting predictor can be expressed as
+    </p>
+
+    <div class="equation">
+      \[
+      \widehat{d}_n
+      =
+      f_n(\mathbf{x}_n)
+      =
+      \sum_{j=1}^{M_n}
+      \alpha_{j,n}\,
+      \kappa
+      \left(
+      \mathbf{x}_n,
+      \mathbf{x}_j
+      \right),
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      where \( \alpha_{j,n} \) are recursively updated coefficients and
+      \( M_n \) is the number of observations represented by the kernel
+      model.
+    </p>
+
+    <p style="text-align: justify;">
+      A regularized KRLS formulation can be interpreted through the
+      optimization problem
+    </p>
+
+    <div class="equation">
+      \[
+      \underset{f\in\mathcal{H}}{\operatorname{minimize}}
+      \quad
+      \sum_{i=1}^{n}
+      \lambda^{\,n-i}
+      \left|
+      d_i-f(\mathbf{x}_i)
+      \right|^2
+      +
+      \mu
+      \|f\|_{\mathcal H}^{2},
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      where \( \mathcal H \) is the RKHS induced by the selected kernel and
+      \( \mu&gt;0 \) controls regularization.
+    </p>
+
+    <p style="text-align: justify;">
+      In this way, KRLS retains the online adaptation mechanism of classical
+      RLS while replacing a purely linear model with a nonlinear
+      kernel-based predictor.
+    </p>
+
+
+    <!-- =========================
+         Why KRLS for Wireless?
+    ========================== -->
+
+    <h3>
+      Why KRLS for Wireless Signal Processing?
+    </h3>
+
+    <p style="text-align: justify;">
+      KRLS is attractive for wireless applications because many relevant
+      processes are simultaneously nonlinear and time-varying. Examples
+      include channel evolution, mobility-dependent observations,
+      interference dynamics, beam prediction, nonlinear receiver processing,
+      and sensing-assisted communication.
+    </p>
+
+    <p style="text-align: justify;">
+      The basic learning process can be summarized as
+    </p>
+
+    <div class="equation">
+      \[
+      \boxed{
+      \text{wireless observations}
+      \longrightarrow
+      \text{kernel similarity}
+      \longrightarrow
+      \text{recursive adaptation}
+      \longrightarrow
+      \text{nonlinear prediction}
+      } .
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      In contrast to a model trained once and then kept fixed, a recursive
+      learner can continue updating as the propagation environment evolves.
+      This is particularly useful in systems affected by mobility,
+      non-stationarity, changing interference, or sensing conditions.
+    </p>
+
+
+    <!-- =========================
+         Important Limitation
+    ========================== -->
+
+    <h3>
+      Model Growth and Online Complexity
+    </h3>
+
+    <p style="text-align: justify;">
+      Classical KRLS also introduces an important challenge. If every new
+      observation becomes a kernel basis element, then the model size grows
+      with time,
+    </p>
+
+    <div class="equation">
+      \[
+      M_n = n .
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      Consequently, memory consumption and recursive-update complexity can
+      become increasingly expensive in long-running systems.
+    </p>
+
+    <p style="text-align: justify;">
+      This motivates sparse extensions of KRLS, where only sufficiently
+      informative observations are retained in the kernel dictionary.
+      Methods based on novelty, coherence, or approximate linear dependency
+      can therefore provide an important extension when KRLS is deployed in
+      real-time wireless systems.
+    </p>
+
+
+    <!-- =========================
+         Research Directions
+    ========================== -->
+
+    <div class="research-question">
+
+      <strong>
+        Research directions:
+      </strong>
+
+      <ul>
+
+        <li>
+          How effectively can KRLS track nonlinear wireless processes under
+          mobility and rapidly changing channel conditions?
+        </li>
+
+        <li>
+          How should kernel parameters and forgetting factors be selected or
+          adapted for different wireless environments?
+        </li>
+
+        <li>
+          How can sparse dictionary techniques control the computational
+          growth of KRLS without sacrificing prediction performance?
+        </li>
+
+        <li>
+          How can physical knowledge of channels, antenna arrays, mobility,
+          or sensing systems be incorporated into kernel-based learning?
+        </li>
+
+        <li>
+          For which wireless problems does online kernel learning provide a
+          better performance-complexity-adaptation trade-off than offline
+          deep learning?
+        </li>
+
+      </ul>
+
+    </div>
+
+
+    <!-- =========================
+         Applications
+    ========================== -->
+
+    <h4>
+      Potential Applications
+    </h4>
+
+    <p style="text-align: justify;">
+      Kernel adaptive methods can be investigated for a range of wireless
+      signal-processing problems, including channel prediction, adaptive
+      equalization, beam prediction, interference learning, mobility tracking,
+      and integrated sensing and communication.
+    </p>
+
+
+    <!-- =========================
+         Research Vision
+    ========================== -->
+
+    <h4>
+      Research Vision
+    </h4>
+
+    <p style="text-align: justify;">
+      My broader interest is in learning-based wireless signal processing
+      that combines the interpretability and sequential adaptation of
+      classical signal-processing algorithms with the nonlinear modeling
+      capability of modern machine learning.
+    </p>
+
+    <div class="equation">
+      \[
+      \boxed{
+      \text{adaptive signal processing}
+      +
+      \text{kernel learning}
+      +
+      \text{wireless structure}
+      }
+      \]
+    </div>
+
+
+    <!-- =========================
+         Tags
+    ========================== -->
+
+    <div class="tag-list">
+
+      <span>
+        Machine Learning for Wireless
+      </span>
+
+      <span>
+        Kernel Methods
+      </span>
+
+      <span>
+        KRLS
+      </span>
+
+      <span>
+        Adaptive Signal Processing
+      </span>
+
+      <span>
+        Online Learning
+      </span>
+
+    </div>
+
+  </article>
 
 </section>
 
-
-
-
-
-
-
 <!-- =====================================================
-     LEARNING
+     INTEGRATED SENSING AND COMMUNICATION
 ===================================================== -->
-
 
 <section class="section">
 
+  <h2>
+    Integrated Sensing and Communication
+  </h2>
 
-<h2>
-Learning-Based Wireless Signal Processing
-</h2>
-
-
-
-<article class="research-card">
+  <article class="research-card">
 
 
-<h3>
-Research Motivation
-</h3>
+    <!-- =========================
+         Research Motivation
+    ========================== -->
+
+    <h3>
+      Research Motivation
+    </h3>
+
+    <p style="text-align: justify;">
+      Integrated sensing and communication (ISAC) enables wireless
+      infrastructure to use the same transmitted signals, spectrum, and
+      antenna resources for both data communication and environmental
+      sensing. One particularly interesting application is predictive
+      beamforming in vehicle-to-infrastructure (V2I) networks, where a
+      roadside unit (RSU) communicates with moving vehicles while
+      simultaneously observing the signals reflected from them.
+    </p>
+
+    <p style="text-align: justify;">
+      The reflected sensing signals contain spatial and temporal information
+      about the vehicles. Rather than explicitly estimating intermediate
+      parameters such as angle-of-arrival, angle-of-departure, or channel
+      state information (CSI), this sensing information can be used directly
+      to predict the beamformers required for future communication.
+    </p>
+
+    <p style="text-align: justify;">
+      For the \(k\)-th vehicle, we consider the post-processed reflected
+      sensing observation
+    </p>
+
+    <div class="equation">
+      \[
+      \bar{\mathbf r}_{k,n}
+      =
+      G\xi\beta_{k,n}
+      \mathbf b(\phi_{k,n},\theta_{k,n})
+      \mathbf a^{H}(\phi_{k,n},\theta_{k,n})
+      \mathbf f_{k,n}
+      +
+      \bar{\mathbf z}_{n},
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      where \(\mathbf f_{k,n}\) is the RSU transmit beamformer,
+      \(\mathbf a(\cdot)\) and \(\mathbf b(\cdot)\) are the transmit and
+      receive array responses of the RSU, \(\beta_{k,n}\) contains the
+      sensing-path characteristics, and \(\bar{\mathbf z}_{n}\) represents
+      measurement noise.
+    </p>
+
+    <p style="text-align: justify;">
+      In our work, this post-processed reflected signal is taken directly as
+      the sensing input; the preceding matched-filter and delay-Doppler
+      processing stages are not the focus of the predictive-beamforming
+      problem.
+    </p>
 
 
-<p align="justify">
+    <!-- =========================
+         End-to-End Predictive Beamforming
+    ========================== -->
 
-Future wireless systems operate in highly dynamic environments where channel
-conditions, user mobility, and interference patterns continuously change.
-Learning-based methods provide opportunities for adaptive prediction and
-optimization beyond traditional model-based approaches.
+    <h3>
+      End-to-End Predictive Beamforming
+    </h3>
 
-</p>
+    <p style="text-align: justify;">
+      The conventional predictive-beamforming pipeline can be represented as
+    </p>
+
+    <div class="equation">
+      \[
+      \text{Sensing signals}
+      \longrightarrow
+      \text{State / CSI estimation}
+      \longrightarrow
+      \text{Beamformer design}.
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      Errors introduced during state estimation propagate into the subsequent
+      beamforming stage. An alternative is to bypass this intermediate
+      representation and learn the mapping
+    </p>
+
+    <div class="equation">
+      \[
+      \boldsymbol{\Gamma}_{n-1}^{(\tau)}
+      \longrightarrow
+      \{
+      \mathbf f_{k,n},
+      \mathbf w_{k,n}
+      \}_{k=1}^{K},
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      where
+    </p>
+
+    <div class="equation">
+      \[
+      \boldsymbol{\Gamma}_{n-1}^{(\tau)}
+      =
+      \{
+      \boldsymbol{\Gamma}_{n-\tau},
+      \ldots,
+      \boldsymbol{\Gamma}_{n-1}
+      \},
+      \qquad
+      \boldsymbol{\Gamma}_{n}
+      =
+      \begin{bmatrix}
+      \bar{\mathbf r}_{1,n}^{T}\\
+      \vdots\\
+      \bar{\mathbf r}_{K,n}^{T}
+      \end{bmatrix},
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      contains the reflected sensing observations of all vehicles over
+      multiple previous time slots. The objective is to predict the
+      beamformers for the next time slot directly from these observations.
+    </p>
+
+    <p style="text-align: justify;">
+      Communication performance is ultimately determined by the multi-user
+      SINR
+    </p>
+
+    <div class="equation">
+      \[
+      \gamma_{k,n}
+      =
+      \frac{
+      \left|
+      \mathbf w_{k,n}^{H}
+      \mathbf H_{k,n}
+      \mathbf f_{k,n}
+      \right|^{2}
+      }{
+      \displaystyle
+      \sum_{i\neq k}
+      \left|
+      \mathbf w_{k,n}^{H}
+      \mathbf H_{k,n}
+      \mathbf f_{i,n}
+      \right|^{2}
+      +
+      \sigma_c^{2}
+      },
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      and the corresponding achievable sum-rate
+    </p>
+
+    <div class="equation">
+      \[
+      R_n
+      =
+      \sum_{k=1}^{K}
+      \log_{2}
+      \left(
+      1+\gamma_{k,n}
+      \right).
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      Thus, predictive beamforming is not simply a regression problem:
+      the beamformers of different vehicles are coupled through multi-user
+      interference, and the final objective is communication performance.
+    </p>
 
 
+    <!-- =========================
+         Technical Challenge
+    ========================== -->
 
-<h3>
-Research Direction
-</h3>
+    <h3>
+      Technical Challenge
+    </h3>
 
+    <p style="text-align: justify;">
+      Existing end-to-end predictive beamforming approaches have demonstrated
+      that deep neural networks can learn the nonlinear mapping from reflected
+      sensing signals to beamforming vectors. However, these models are
+      primarily trained offline using a large collection of channel and
+      mobility realizations.
+    </p>
 
-<p align="justify">
+    <p style="text-align: justify;">
+      Vehicular environments are inherently non-stationary. Vehicle motion,
+      changing traffic density, blockage, clutter, channel conditions, and
+      sensing noise can alter the statistical relationship between the
+      reflected observations and the desired beamformers. This motivates an
+      important question:
+    </p>
 
-I am interested in combining signal-processing principles with learning
-methods to develop efficient algorithms for dynamic wireless systems.
-Particular interests include adaptive learning, nonlinear modeling, predictive
-signal processing, and computationally efficient approaches suitable for
-physical-layer applications.
+    <div class="research-question">
 
-</p>
+      <strong>
+        Can predictive beamforming be learned and continuously adapted online,
+        rather than relying primarily on an offline-trained neural network?
+      </strong>
 
-
-
-<h3>
-Applications</h3>
-
-
-<p align="justify">
-
-Potential applications include channel prediction, beam management,
-adaptive receivers, and intelligent communication and sensing systems.
-
-</p>
-
-
-
-<div class="tag-list">
-
-<span>
-Adaptive Learning
-</span>
-
-<span>
-Kernel Methods
-</span>
-
-<span>
-Prediction
-</span>
-
-<span>
-Wireless Intelligence
-</span>
+    </div>
 
 
-</div>
+    <!-- =========================
+         Current Research Direction
+    ========================== -->
+
+    <h3>
+      Online Kernel Learning for Predictive Beamforming
+    </h3>
+
+    <p style="text-align: justify;">
+      Our current research investigates replacing the deep neural network
+      used for end-to-end predictive beamforming with an online
+      <strong>approximate-linear-dependency kernel recursive least-squares
+      (ALD-KRLS)</strong> framework.
+    </p>
+
+    <p style="text-align: justify;">
+      For a network serving \(K\) vehicles, we consider \(K\)
+      vehicle-specific KRLS predictors. Each predictor estimates the
+      beamforming variables associated with one vehicle, while the input can
+      retain the reflected sensing information from all vehicles so that
+      inter-vehicle coupling is not discarded.
+    </p>
+
+    <div class="equation">
+      \[
+      \mathbf x_n
+      =
+      \operatorname{vec}
+      \left(
+      \boldsymbol{\Gamma}_{n-1}^{(\tau)}
+      \right),
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      and the predictor associated with vehicle \(k\) can be represented as
+    </p>
+
+    <div class="equation">
+      \[
+      \widehat{\mathbf q}_{k,n}
+      =
+      \mathcal K_k(\mathbf x_n)
+      =
+      \sum_{j\in\mathcal D_k}
+      \boldsymbol{\alpha}_{k,j}
+      \,
+      \kappa
+      \left(
+      \mathbf x_n,
+      \mathbf x_{k,j}
+      \right),
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      where \(\mathcal D_k\) is the adaptive kernel dictionary,
+      \(\kappa(\cdot,\cdot)\) is the kernel function, and
+      \(\widehat{\mathbf q}_{k,n}\) represents the predicted parameters from
+      which the transmit and receive beamforming vectors of vehicle \(k\)
+      are constructed.
+    </p>
 
 
-</article>
+    <!-- =========================
+         ALD Dictionary
+    ========================== -->
 
+    <h4>
+      Adaptive Dictionary Growth
+    </h4>
+
+    <p style="text-align: justify;">
+      A central issue in online kernel methods is that storing every new
+      observation causes the model complexity to grow indefinitely.
+      Approximate linear dependency (ALD) provides a mechanism for adding
+      a new sensing observation only when it contributes sufficiently new
+      information to the kernel dictionary.
+    </p>
+
+    <p style="text-align: justify;">
+      For a candidate input \(\mathbf x_n\), its novelty relative to the
+      current dictionary can be measured by
+    </p>
+
+    <div class="equation">
+      \[
+      \delta_n
+      =
+      \kappa(\mathbf x_n,\mathbf x_n)
+      -
+      \mathbf k_n^{H}
+      \mathbf K_{\mathcal D}^{-1}
+      \mathbf k_n,
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      where
+    </p>
+
+    <div class="equation">
+      \[
+      \mathbf k_n
+      =
+      \begin{bmatrix}
+      \kappa(\mathbf x_n,\mathbf x_1) &
+      \cdots &
+      \kappa(\mathbf x_n,\mathbf x_{|\mathcal D|})
+      \end{bmatrix}^{T}.
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      The observation is added to the dictionary only when
+    </p>
+
+    <div class="equation">
+      \[
+      \delta_n > \delta_{\mathrm{ALD}},
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      allowing the predictor to adapt to new operating conditions while
+      controlling its memory and computational complexity.
+    </p>
+
+
+    <!-- =========================
+         Task-Driven Learning
+    ========================== -->
+
+    <h4>
+      Task-Driven Online Adaptation
+    </h4>
+
+    <p style="text-align: justify;">
+      An important aspect of this direction is that the goal is not merely
+      to minimize the Euclidean error between predicted and reference
+      beamforming vectors. The ultimate task is to maintain or improve
+      communication performance.
+    </p>
+
+    <p style="text-align: justify;">
+      Therefore, the learning problem can be linked directly to the
+      communication utility
+    </p>
+
+    <div class="equation">
+      \[
+      \mathcal L_n
+      =
+      -
+      \sum_{k=1}^{K}
+      \log_2
+      \left(
+      1+
+      \gamma_{k,n}
+      \left(
+      \mathbf f_{k,n},
+      \mathbf w_{k,n}
+      \right)
+      \right),
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      so that adaptation is driven by the effect of the predicted beamformers
+      on the end communication objective rather than by beamformer prediction
+      error alone.
+    </p>
+
+
+    <!-- =========================
+         Research Questions
+    ========================== -->
+
+    <div class="research-question">
+
+      <strong>
+        Research questions:
+      </strong>
+
+      <ul>
+
+        <li>
+          Can online KRLS achieve predictive beamforming performance
+          comparable to large offline-trained DNNs while requiring
+          substantially less retraining?
+        </li>
+
+        <li>
+          How quickly can an adaptive kernel predictor track changes in
+          vehicle mobility, channel statistics, sensing noise, clutter, and
+          traffic conditions?
+        </li>
+
+        <li>
+          How should the kernel dictionary be controlled so that adaptation,
+          prediction accuracy, memory usage, and real-time execution remain
+          balanced?
+        </li>
+
+        <li>
+          Should each vehicle use only its own reflected sensing history, or
+          should the predictor retain global multi-vehicle sensing information
+          to better account for inter-user interference?
+        </li>
+
+        <li>
+          Can task-driven kernel updates based directly on achievable
+          sum-rate outperform conventional regression-based beamformer
+          learning?
+        </li>
+
+        <li>
+          How should confidence or novelty information from an online kernel
+          model be used to decide when the predictor should update, remain
+          unchanged, or request additional information?
+        </li>
+
+      </ul>
+
+    </div>
+
+
+    <!-- =========================
+         Research Vision
+    ========================== -->
+
+    <h4>
+      Research Vision
+    </h4>
+
+    <p style="text-align: justify;">
+      More broadly, this research explores whether ISAC-enabled predictive
+      beamforming can evolve from a predominantly offline learning problem
+      toward an adaptive signal-processing framework that learns continuously
+      from the sensing information already available at the RSU.
+    </p>
+
+    <div class="equation">
+      \[
+      \boxed{
+      \text{Reflected sensing}
+      \rightarrow
+      \text{online kernel learning}
+      \rightarrow
+      \text{predictive beamforming}
+      \rightarrow
+      \text{communication utility}
+      }
+      \]
+    </div>
+
+    <p style="text-align: justify;">
+      Such a framework combines physical sensing models, adaptive signal
+      processing, kernel learning, and task-oriented beamforming for dynamic
+      ISAC systems.
+    </p>
+
+
+    <!-- =========================
+         Reference
+    ========================== -->
+
+    <p class="research-note" style="text-align: justify;">
+      <strong>Research basis:</strong>
+      Z. Wang, V. W. S. Wong, and R. Schober,
+      “Integrated Sensing and Communications for End-to-End Predictive
+      Beamforming Design in Vehicle-to-Infrastructure Networks,”
+      <em>IEEE Journal of Selected Topics in Signal Processing</em>,
+      vol. 18, no. 5, 2024.
+    </p>
+
+
+    <!-- =========================
+         Tags
+    ========================== -->
+
+    <div class="tag-list">
+
+      <span>
+        Integrated Sensing and Communication
+      </span>
+
+      <span>
+        Predictive Beamforming
+      </span>
+
+      <span>
+        Kernel Recursive Least Squares
+      </span>
+
+      <span>
+        Online Learning
+      </span>
+
+      <span>
+        Vehicular Networks
+      </span>
+
+      <span>
+        Task-Driven Learning
+      </span>
+
+    </div>
+
+
+  </article>
 
 </section>
-
-
-
-
-
-
-
-<!-- =====================================================
-     ISAC
-===================================================== -->
-
-
-<section class="section">
-
-
-<h2>
-Integrated Communication and Sensing
-</h2>
-
-
-
-<article class="research-card">
-
-
-<h3>
-Research Motivation
-</h3>
-
-
-<p align="justify">
-
-Integrated sensing and communication (ISAC) aims to utilize shared hardware
-and signal resources to provide both data transmission and environmental
-awareness. It is considered one of the important directions for future
-wireless systems.
-
-</p>
-
-
-
-<h3>
-Research Challenges
-</h3>
-
-
-<p align="justify">
-
-ISAC systems require efficient signal processing methods capable of balancing
-communication performance and sensing accuracy while operating under limited
-resources and dynamic environments.
-
-</p>
-
-
-
-<h3>
-Research Interest
-</h3>
-
-
-<p align="justify">
-
-My interest is in signal-processing approaches for ISAC systems, including
-spatial processing, waveform design, and learning-based methods for improving
-adaptability in communication and sensing scenarios.
-
-</p>
-
-
-
-<div class="tag-list">
-
-<span>
-ISAC
-</span>
-
-<span>
-Beamforming
-</span>
-
-<span>
-RIS/IRS
-</span>
-
-<span>
-Future Wireless Systems
-</span>
-
-
-</div>
-
-
-</article>
-
-
-</section>
-
-
-
-
-
-
-
-<!-- =====================================================
-     SIMULATION
-===================================================== -->
-
-
-<section class="section">
-
-
-<h2>
-Research Methodology and Simulation
-</h2>
-
-
-<p align="justify">
-
-My research workflow combines theoretical analysis, algorithm development,
-and numerical evaluation. MATLAB-based simulations are used to investigate
-performance metrics, compare approaches, and study the impact of practical
-constraints such as noise, interference, and computational complexity.
-
-</p>
-
-
-
-<p align="justify">
-
-Selected simulation results, research notes, and implementation examples will
-be provided through linked repositories as the research portfolio develops.
-
-</p>
-
-
-
-</section>
-
-
-
 
 
 </main>
